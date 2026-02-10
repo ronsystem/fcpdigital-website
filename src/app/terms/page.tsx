@@ -1,7 +1,10 @@
 'use client'
 
+import { Footer } from '@/components/Footer'
+
 export default function TermsPage() {
   return (
+    <>
     <div className="min-h-screen bg-black py-24 px-6">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-2">
@@ -140,5 +143,7 @@ export default function TermsPage() {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   )
 }

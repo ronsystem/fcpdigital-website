@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Footer } from '@/components/Footer'
 import { PRICING_PLANS, INDUSTRIES } from '@/lib/utils/constants'
 
 export default function SignupPage() {
@@ -92,21 +93,31 @@ export default function SignupPage() {
   const selectedPlanData = PRICING_PLANS[selectedPlan]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <Link href="/" className="text-blue-600 hover:text-blue-700 mb-8 inline-block">
-          ← Back to Home
-        </Link>
+    <div className="min-h-screen flex flex-col bg-black">
+      {/* Header */}
+      <header className="bg-black border-b border-gray-800">
+        <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <Link href="/" className="text-2xl font-bold text-red-600">
+            FCP Digital
+          </Link>
+          <Link href="/login" className="text-gray-300 hover:text-red-600 transition">
+            Already have an account?
+          </Link>
+        </nav>
+      </header>
 
-        <div className="bg-white rounded-lg shadow-sm p-8">
-          <h1 className="text-3xl font-bold mb-2">Get Started with FCP Digital</h1>
-          <p className="text-gray-600 mb-8">
+      {/* Main Content */}
+      <div className="flex-1 py-12 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-gray-900 rounded-lg shadow-sm p-8 border border-gray-800">
+          <h1 className="text-3xl font-bold mb-2 text-white">Get Started with FCP Digital</h1>
+          <p className="text-gray-400 mb-8">
             Join hundreds of service businesses using AI to answer their calls
           </p>
 
           {/* Plan Selection */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Select Your Plan</h2>
+            <h2 className="text-xl font-semibold mb-4 text-white">Select Your Plan</h2>
             <div className="grid md:grid-cols-3 gap-4 mb-4">
               {Object.entries(PRICING_PLANS).map(([key, plan]) => (
                 <button
@@ -114,13 +125,13 @@ export default function SignupPage() {
                   onClick={() => setSelectedPlan(key as typeof selectedPlan)}
                   className={`p-4 rounded-lg border-2 text-left transition ${
                     selectedPlan === key
-                      ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-red-600 bg-gray-800'
+                      : 'border-gray-700 hover:border-gray-600'
                   }`}
                 >
-                  <h3 className="font-semibold">{plan.name}</h3>
-                  <p className="text-2xl font-bold">${plan.price}</p>
-                  <p className="text-sm text-gray-600">{plan.minutes} min/month</p>
+                  <h3 className="font-semibold text-white">{plan.name}</h3>
+                  <p className="text-2xl font-bold text-white">${plan.price}</p>
+                  <p className="text-sm text-gray-400">{plan.minutes} min/month</p>
                 </button>
               ))}
             </div>
@@ -129,52 +140,52 @@ export default function SignupPage() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Business Name *</label>
+              <label className="block text-sm font-medium mb-1 text-white">Business Name *</label>
               <input
                 type="text"
                 name="businessName"
                 value={formData.businessName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="Your Business Name"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Email *</label>
+              <label className="block text-sm font-medium mb-1 text-white">Email *</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="your@email.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Phone Number *</label>
+              <label className="block text-sm font-medium mb-1 text-white">Phone Number *</label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 placeholder="+1 (555) 123-4567"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Industry *</label>
+              <label className="block text-sm font-medium mb-1 text-white">Industry *</label>
               <select
                 name="industry"
                 value={formData.industry}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               >
                 <option value="">Select your industry...</option>
                 {INDUSTRIES.map(ind => (
@@ -195,8 +206,15 @@ export default function SignupPage() {
                   required
                   className="rounded"
                 />
-                <span className="ml-2 text-sm text-gray-600">
-                  I agree to the Terms of Service and Privacy Policy
+                <span className="ml-2 text-sm text-gray-400">
+                  I agree to the{' '}
+                  <Link href="/terms" className="text-red-600 hover:text-red-500">
+                    Terms of Service
+                  </Link>
+                  {' '}and{' '}
+                  <Link href="/privacy" className="text-red-600 hover:text-red-500">
+                    Privacy Policy
+                  </Link>
                 </span>
               </label>
             </div>
@@ -204,20 +222,17 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading || !formData.agreeToTerms}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Processing...' : `Subscribe to ${selectedPlanData.name} - $${selectedPlanData.price}/month`}
             </button>
           </form>
-
-          <p className="text-center text-sm text-gray-600 mt-4">
-            Already have an account?{' '}
-            <Link href="/login" className="text-blue-600 hover:text-blue-700">
-              Sign in
-            </Link>
-          </p>
+          </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }
