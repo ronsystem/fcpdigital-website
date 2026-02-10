@@ -6,8 +6,8 @@ import { Footer } from '@/components/Footer'
 import { PRICING_PLANS, INDUSTRIES } from '@/lib/utils/constants'
 
 export default function SignupPage() {
-  const [selectedPlan, setSelectedPlan] = useState<'starter' | 'professional' | 'enterprise'>(
-    'professional'
+  const [selectedPlan, setSelectedPlan] = useState<'launch' | 'scale' | 'dominate'>(
+    'scale'
   )
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({

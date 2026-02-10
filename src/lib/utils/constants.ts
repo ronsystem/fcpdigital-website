@@ -6,13 +6,13 @@
  */
 
 export const PRICING_PLANS = {
-  starter: {
-    id: 'starter',
-    name: 'Starter',
-    price: 249,           // Must match backend: 249.00
+  launch: {
+    id: 'launch',
+    name: 'Launch',
+    price: 249,
     priceMonthly: 249.00,
-    minutes: 500,         // Must match backend: 500
-    stripePriceId: 'price_starter_monthly',
+    minutes: 500,
+    stripePriceId: 'price_1SuJIDKAtfPK3Yyr9K24POD2',
     features: [
       '24/7 AI Call Answering',
       'Up to 500 minutes/month',
@@ -21,15 +21,16 @@ export const PRICING_PLANS = {
       'Email Support',
     ],
   },
-  professional: {
-    id: 'professional',
-    name: 'Professional',
-    price: 499,           // Must match backend: 499.00
+  scale: {
+    id: 'scale',
+    name: 'Scale',
+    price: 499,
     priceMonthly: 499.00,
-    minutes: 1500,        // Must match backend: 1500
-    stripePriceId: 'price_professional_monthly',
+    minutes: 1500,
+    stripePriceId: 'price_1SuJIsKAtfPK3Yyrs9nSrHYv',
+    featured: true,
     features: [
-      'Everything in Starter',
+      'Everything in Launch',
       'Up to 1,500 minutes/month',
       'Advanced Lead Qualification',
       'AI Appointment Scheduling',
@@ -37,15 +38,15 @@ export const PRICING_PLANS = {
       'Analytics Dashboard',
     ],
   },
-  enterprise: {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 899,           // Must match backend: 899.00
+  dominate: {
+    id: 'dominate',
+    name: 'Dominate',
+    price: 899,
     priceMonthly: 899.00,
-    minutes: 3000,        // Must match backend: 3000 (or unlimited)
-    stripePriceId: 'price_enterprise_monthly',
+    minutes: 3000,
+    stripePriceId: 'price_1SzQQxKAtfPK3Yyr4LDxrf8U',
     features: [
-      'Everything in Professional',
+      'Everything in Scale',
       'Up to 3,000 minutes/month',
       'Custom AI Personality',
       'Advanced Integrations',

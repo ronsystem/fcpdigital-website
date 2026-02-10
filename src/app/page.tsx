@@ -80,18 +80,18 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Starter',
+                name: 'Launch',
                 price: '$249',
                 minutes: '500 min/month',
               },
               {
-                name: 'Professional',
+                name: 'Scale',
                 price: '$499',
                 minutes: '1,500 min/month',
                 popular: true,
               },
               {
-                name: 'Enterprise',
+                name: 'Dominate',
                 price: '$899',
                 minutes: '3,000 min/month',
               },
