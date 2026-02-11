@@ -7,12 +7,19 @@ import { stripe } from '@/lib/stripe/server'
 /**
  * CRITICAL: This webhook bridges Stripe payments to RonOS client_onboarder skill
  *
+ * Design principles:
+ * - IDEMPOTENT: Stripe may deliver webhook 2x - we handle duplicates gracefully
+ * - RESILIENT: If RonOS is down, we mark client as pending and retry later
+ * - AUDITED: All webhook events logged to track provisioning status
+ *
  * Flow:
  * 1. Customer pays via Stripe Checkout
- * 2. Stripe sends webhook to this endpoint
- * 3. We create client record in Supabase
- * 4. We trigger RonOS client_onboarder via HTTP
- * 5. RonOS provisions Twilio phone + Vapi AI assistant
+ * 2. Stripe sends webhook to this endpoint (may be duplicate)
+ * 3. We check if we've already processed this webhook ID (idempotency)
+ * 4. Create client record in Supabase with status 'provisioning'
+ * 5. Call RonOS client_onboarder (with 3 automatic retries)
+ * 6. If RonOS fails, mark client as 'pending_provisioning' for manual retry
+ * 7. Log all events to webhook_events table for audit trail
  */
 
 export async function POST(req: Request) {
@@ -34,7 +41,59 @@ export async function POST(req: Request) {
 
   const supabase = createSupabaseClient()
 
+  // Helper: Retry function with exponential backoff
+  async function callRonosWithRetry(payload: object, maxRetries = 3): Promise<boolean> {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await fetch(process.env.RONOS_WEBHOOK_URL!, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(10000), // 10s timeout
+        })
+
+        if (response.ok) {
+          console.log(`✅ RonOS succeeded on attempt ${attempt}`)
+          return true
+        }
+
+        const errorText = await response.text()
+        console.warn(
+          `⚠️  RonOS attempt ${attempt}/${maxRetries} failed: ${response.status} - ${errorText}`
+        )
+
+        // Exponential backoff: 1s, 2s, 4s
+        if (attempt < maxRetries) {
+          const delay = Math.pow(2, attempt - 1) * 1000
+          await new Promise(resolve => setTimeout(resolve, delay))
+        }
+      } catch (error) {
+        console.error(`❌ RonOS attempt ${attempt}/${maxRetries} error:`, error)
+
+        if (attempt < maxRetries) {
+          const delay = Math.pow(2, attempt - 1) * 1000
+          await new Promise(resolve => setTimeout(resolve, delay))
+        }
+      }
+    }
+
+    console.error(`❌ RonOS failed after ${maxRetries} attempts`)
+    return false
+  }
+
   try {
+    // Check idempotency: Have we already processed this webhook event?
+    const { data: existingEvent } = await supabase
+      .from('webhook_events')
+      .select('id')
+      .eq('stripe_event_id', event.id)
+      .single()
+
+    if (existingEvent) {
+      console.log(`⏭️  Webhook already processed: ${event.id}`)
+      return NextResponse.json({ received: true })
+    }
+
     if (event.type === 'customer.subscription.created') {
       const subscription = event.data.object as Stripe.Subscription
       const customerId = subscription.customer as string
@@ -88,41 +147,55 @@ export async function POST(req: Request) {
 
       console.log(`✅ Client created in Supabase: ${client.id}`)
 
-      // Trigger RonOS client_onboarder skill via HTTP
-      try {
-        const ronosResponse = await fetch(process.env.RONOS_WEBHOOK_URL!, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            event_type: 'customer.subscription.created',
-            client_id: client.id,
-            business_name: client.business_name,
-            contact_email: client.contact_email,
-            contact_phone: client.contact_phone,
-            plan: client.plan,
-            stripe_customer_id: customerId,
-            stripe_subscription_id: subscription.id,
-          }),
-        })
+      // Trigger RonOS client_onboarder skill via HTTP (with retry logic)
+      const ronosPayload = {
+        event_type: 'customer.subscription.created',
+        client_id: client.id,
+        business_name: client.business_name,
+        contact_email: client.contact_email,
+        contact_phone: client.contact_phone,
+        plan: client.plan,
+        stripe_customer_id: customerId,
+        stripe_subscription_id: subscription.id,
+      }
 
-        if (!ronosResponse.ok) {
-          console.warn(
-            `⚠️  RonOS returned ${ronosResponse.status}: ${await ronosResponse.text()}`
-          )
-          // Don't fail the webhook - RonOS can retry
-        } else {
-          console.log(`✅ RonOS client_onboarder triggered for: ${client.business_name}`)
-        }
-      } catch (error) {
-        console.error('❌ Failed to trigger RonOS:', error)
-        // Don't fail - mark client as pending and we can retry manually
+      const ronosSuccess = await callRonosWithRetry(ronosPayload)
+
+      if (ronosSuccess) {
+        // Update client to active (RonOS will populate twilio_number and vapi_assistant_id)
+        await supabase.from('clients').update({ status: 'active' }).eq('id', client.id)
+        console.log(`✅ RonOS client_onboarder succeeded for: ${client.business_name}`)
+      } else {
+        // RonOS failed even after retries - mark as pending for manual retry
         await supabase
           .from('clients')
-          .update({ status: 'pending_provisioning' })
+          .update({
+            status: 'pending_provisioning',
+            metadata: {
+              last_provision_attempt: new Date().toISOString(),
+              provision_error: 'RonOS unreachable after 3 retries',
+            },
+          })
           .eq('id', client.id)
+
+        console.error(
+          `❌ Client ${client.id} marked pending - RonOS was unreachable. Manual retry needed.`
+        )
       }
+
+      // Log webhook event for audit trail
+      await supabase.from('webhook_events').insert({
+        stripe_event_id: event.id,
+        event_type: event.type,
+        customer_id: customerId,
+        client_id: client.id,
+        status: ronosSuccess ? 'success' : 'pending_retry',
+        metadata: {
+          subscription_id: subscription.id,
+          plan,
+          ronosSuccess,
+        },
+      })
     }
 
     if (event.type === 'customer.subscription.deleted') {
@@ -140,6 +213,18 @@ export async function POST(req: Request) {
       } else {
         console.log(`✅ Client marked as cancelled: ${customerId}`)
       }
+
+      // Log webhook event
+      await supabase.from('webhook_events').insert({
+        stripe_event_id: event.id,
+        event_type: event.type,
+        customer_id: customerId,
+        status: error ? 'error' : 'success',
+        metadata: {
+          subscription_id: subscription.id,
+          error: error?.message,
+        },
+      })
     }
 
     return NextResponse.json({ received: true })
