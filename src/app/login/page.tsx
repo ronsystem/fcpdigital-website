@@ -3,49 +3,24 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
 import { Footer } from '@/components/Footer'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-)
 
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
 
-    try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
+    // Demo mode - simulate login
+    localStorage.setItem('auth_token', 'mock_token_' + Date.now())
+    localStorage.setItem('user_email', email)
 
-      if (signInError) {
-        setError(signInError.message || 'Invalid email or password')
-        setLoading(false)
-        return
-      }
-
-      if (data.user) {
-        // Wait for session to be established
-        await new Promise(resolve => setTimeout(resolve, 500))
-        // Success - redirect to dashboard
-        router.push('/dashboard')
-      }
-    } catch (err) {
-      setError('An error occurred. Please try again.')
-      console.error('Login error:', err)
-      setLoading(false)
-    }
+    setTimeout(() => {
+      router.push('/dashboard')
+    }, 1000)
   }
 
   return (
@@ -73,12 +48,6 @@ export default function LoginPage() {
 
           {/* Login Form Card */}
           <div className="bg-gray-900 rounded-lg shadow-lg p-8 border border-gray-800">
-            {error && (
-              <div className="mb-4 p-3 bg-red-900/30 border border-red-800 text-red-300 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
-
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
@@ -89,20 +58,6 @@ export default function LoginPage() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  required
-                  className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
                   required
                   className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
