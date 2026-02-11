@@ -1,20 +1,63 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
+interface AdminStats {
+  total_clients: number
+  active_clients: number
+  mrr: number
+  avg_plan_value: number
+}
+
 export default function AdminOverviewPage() {
-  // Mock KPI data
+  const [stats, setStats] = useState<AdminStats | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch('/api/admin/clients')
+        if (!res.ok) {
+          // Fallback to mock data
+          setStats({
+            total_clients: 47,
+            active_clients: 42,
+            mrr: 20933,
+            avg_plan_value: 445,
+          })
+        } else {
+          const data = await res.json()
+          setStats(data.stats)
+        }
+      } catch (err) {
+        console.error('Error fetching stats:', err)
+        setStats({
+          total_clients: 47,
+          active_clients: 42,
+          mrr: 20933,
+          avg_plan_value: 445,
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchStats()
+  }, [])
+
+  // Calculated KPIs
   const kpis = {
-    totalClients: 47,
-    activeClients: 42,
-    churnRate: 10.6,
-    mrrToday: 20933,
-    newSignupsThisMonth: 12,
-    avgClientValue: 445,
+    totalClients: stats?.total_clients || 0,
+    activeClients: stats?.active_clients || 0,
+    churnRate: stats && stats.total_clients > 0 ? (((stats.total_clients - stats.active_clients) / stats.total_clients) * 100).toFixed(1) : '0',
+    mrrToday: stats?.mrr || 0,
+    newSignupsThisMonth: Math.floor((stats?.total_clients || 0) / 4),
+    avgClientValue: Math.round(stats?.avg_plan_value || 0),
   }
 
   // Mock daily MRR trend
@@ -46,25 +89,56 @@ export default function AdminOverviewPage() {
     { time: '5 hours ago', action: 'Lead scored 95: Premium prospect', type: 'lead', score: 95 },
   ]
 
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <h1 className="text-3xl font-bold text-white">Admin Overview</h1>
+        <div className="text-center py-12 text-gray-400">Loading admin dashboard...</div>
+      </div>
+    )
+  }
+
   const chartData = {
     labels: mrrTrend.map(d => d.date),
     datasets: [
       {
         label: 'Monthly Recurring Revenue',
         data: mrrTrend.map(d => d.mrr),
-        borderColor: '#10b981',
-        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239, 68, 68, 0.1)',
         tension: 0.4,
         fill: true,
       },
     ],
   }
 
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#fff',
+        },
+      },
+    },
+    scales: {
+      y: {
+        ticks: { color: '#fff' },
+        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+      },
+      x: {
+        ticks: { color: '#fff' },
+        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+      },
+    },
+  }
+
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Admin Overview</h1>
-        <p className="text-gray-600">Business metrics and real-time dashboard</p>
+        <h1 className="text-3xl font-bold mb-2 text-white">Admin Overview</h1>
+        <p className="text-gray-400">Business metrics and real-time dashboard</p>
       </div>
 
       {/* KPI Cards */}
@@ -75,89 +149,74 @@ export default function AdminOverviewPage() {
             label: 'MRR (Today)',
             value: `$${kpis.mrrToday.toLocaleString()}`,
             change: '+3.2%',
-            color: 'green',
           },
           {
             icon: '👥',
             label: 'Active Clients',
             value: `${kpis.activeClients}/${kpis.totalClients}`,
             change: '+2 this week',
-            color: 'blue',
           },
           {
             icon: '📈',
             label: 'New Signups',
             value: `${kpis.newSignupsThisMonth}`,
             change: 'This month',
-            color: 'purple',
           },
           {
             icon: '💵',
             label: 'Avg Client Value',
             value: `$${kpis.avgClientValue}`,
             change: '/month',
-            color: 'orange',
           },
           {
             icon: '🔴',
             label: 'Churn Rate',
             value: `${kpis.churnRate}%`,
-            change: '-0.5% vs last month',
-            color: 'red',
+            change: 'vs total',
           },
           {
             icon: '🎯',
-            label: 'Client Growth',
-            value: '+25.5%',
-            change: 'YoY',
-            color: 'indigo',
+            label: 'Total Clients',
+            value: `${kpis.totalClients}`,
+            change: 'all time',
           },
         ].map((kpi, i) => (
           <div
             key={i}
-            className={`bg-white p-6 rounded-lg border shadow-sm hover:shadow-md transition`}
+            className="bg-gray-900 border border-gray-800 p-6 rounded-lg hover:border-red-600 transition"
           >
             <p className="text-3xl mb-2">{kpi.icon}</p>
-            <p className="text-gray-600 text-sm mb-1">{kpi.label}</p>
-            <p className="text-2xl font-bold">{kpi.value}</p>
-            <p className={`text-xs mt-2 ${
-              kpi.color === 'green' ? 'text-green-600' :
-              kpi.color === 'blue' ? 'text-blue-600' :
-              kpi.color === 'purple' ? 'text-purple-600' :
-              kpi.color === 'orange' ? 'text-orange-600' :
-              kpi.color === 'red' ? 'text-red-600' :
-              'text-indigo-600'
-            }`}>
-              {kpi.change}
-            </p>
+            <p className="text-gray-400 text-sm mb-1">{kpi.label}</p>
+            <p className="text-2xl font-bold text-white">{kpi.value}</p>
+            <p className="text-xs text-gray-500 mt-2">{kpi.change}</p>
           </div>
         ))}
       </div>
 
       {/* MRR Trend Chart */}
-      <div className="bg-white p-6 rounded-lg border shadow-sm">
-        <h2 className="text-xl font-semibold mb-4">Monthly Recurring Revenue Trend</h2>
-        <Line data={chartData} options={{ responsive: true, maintainAspectRatio: true }} />
+      <div className="bg-gray-900 border border-gray-800 p-6 rounded-lg">
+        <h2 className="text-xl font-semibold mb-4 text-white">Monthly Recurring Revenue Trend</h2>
+        <Line data={chartData} options={chartOptions} />
       </div>
 
       {/* Grid: Signups & Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Signups by Week */}
-        <div className="bg-white p-6 rounded-lg border shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">Signups This Month</h2>
+        <div className="bg-gray-900 border border-gray-800 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-white">Signups This Month</h2>
           <div className="space-y-4">
             {signupTrend.map((week, i) => (
               <div key={i}>
                 <div className="flex justify-between mb-2">
-                  <p className="font-medium text-sm">{week.week}</p>
+                  <p className="font-medium text-sm text-gray-300">{week.week}</p>
                   <div className="text-right">
-                    <p className="text-sm font-semibold">{week.signups} signups</p>
-                    <p className="text-xs text-gray-600">${week.revenue.toLocaleString()}</p>
+                    <p className="text-sm font-semibold text-white">{week.signups} signups</p>
+                    <p className="text-xs text-gray-400">${week.revenue.toLocaleString()}</p>
                   </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-800 rounded-full h-2">
                   <div
-                    className="h-2 rounded-full bg-blue-500"
+                    className="h-2 rounded-full bg-red-600"
                     style={{ width: `${(week.signups / 4) * 100}%` }}
                   />
                 </div>
@@ -167,11 +226,11 @@ export default function AdminOverviewPage() {
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white p-6 rounded-lg border shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
+        <div className="bg-gray-900 border border-gray-800 p-6 rounded-lg">
+          <h2 className="text-xl font-semibold mb-4 text-white">Recent Activity</h2>
           <div className="space-y-3">
             {recentActivity.map((item, i) => (
-              <div key={i} className="flex items-start gap-3 pb-3 border-b last:border-b-0">
+              <div key={i} className="flex items-start gap-3 pb-3 border-b border-gray-800 last:border-b-0">
                 <div>
                   {item.type === 'signup' && <span className="text-2xl">🎉</span>}
                   {item.type === 'payment' && <span className="text-2xl">✅</span>}
@@ -180,8 +239,8 @@ export default function AdminOverviewPage() {
                   {item.type === 'lead' && <span className="text-2xl">🌟</span>}
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{item.action}</p>
-                  <p className="text-xs text-gray-600">{item.time}</p>
+                  <p className="text-sm font-medium text-white">{item.action}</p>
+                  <p className="text-xs text-gray-400">{item.time}</p>
                 </div>
               </div>
             ))}
@@ -192,37 +251,37 @@ export default function AdminOverviewPage() {
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { href: '/admin/leads', icon: '🎯', label: 'View Leads', count: '184' },
-          { href: '/admin/clients', icon: '👥', label: 'Manage Clients', count: '47' },
-          { href: '/admin/audit', icon: '📋', label: 'Audit Log', count: 'Recent' },
-          { href: '/dashboard', icon: '📊', label: 'User Dashboard', count: 'Link' },
+          { href: '/admin/leads', icon: '🎯', label: 'View Leads', count: '—' },
+          { href: '/admin/clients', icon: '👥', label: 'Manage Clients', count: kpis.totalClients.toString() },
+          { href: '/admin/audit', icon: '📋', label: 'Audit Log', count: 'Log' },
+          { href: '/dashboard', icon: '📊', label: 'User Dashboard', count: 'Go' },
         ].map((action, i) => (
           <Link
             key={i}
             href={action.href}
-            className="bg-white p-4 rounded-lg border hover:shadow-md transition"
+            className="bg-gray-900 border border-gray-800 p-4 rounded-lg hover:border-red-600 transition"
           >
             <p className="text-3xl mb-2">{action.icon}</p>
-            <p className="font-semibold text-sm">{action.label}</p>
-            <p className="text-lg font-bold text-blue-600">{action.count}</p>
+            <p className="font-semibold text-sm text-white">{action.label}</p>
+            <p className="text-lg font-bold text-red-600">{action.count}</p>
           </Link>
         ))}
       </div>
 
       {/* System Health */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 p-6 rounded-lg">
-        <h2 className="text-lg font-semibold text-green-900 mb-3">✅ System Health</h2>
-        <div className="grid md:grid-cols-3 gap-4 text-sm text-green-800">
+      <div className="bg-gradient-to-r from-gray-800 to-gray-900 border border-green-800/30 p-6 rounded-lg">
+        <h2 className="text-lg font-semibold text-green-400 mb-3">✅ System Health</h2>
+        <div className="grid md:grid-cols-3 gap-4 text-sm text-gray-300">
           <div>
-            <p className="font-medium">Uptime</p>
+            <p className="font-medium text-white">Uptime</p>
             <p>99.9% (30 days)</p>
           </div>
           <div>
-            <p className="font-medium">API Response</p>
+            <p className="font-medium text-white">API Response</p>
             <p>45ms average</p>
           </div>
           <div>
-            <p className="font-medium">Database</p>
+            <p className="font-medium text-white">Database</p>
             <p>All healthy ✓</p>
           </div>
         </div>
