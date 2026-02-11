@@ -23,7 +23,11 @@ export default function CallsPage() {
   useEffect(() => {
     const fetchCalls = async () => {
       try {
-        const res = await fetch('/api/calls')
+        // Get email from localStorage (demo mode)
+        const email = localStorage.getItem('user_email')
+        const callsUrl = email ? `/api/calls?email=${encodeURIComponent(email)}` : '/api/calls'
+
+        const res = await fetch(callsUrl)
         if (!res.ok) {
           // Fallback to mock data
           setCalls([

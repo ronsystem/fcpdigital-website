@@ -32,8 +32,12 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Get email from localStorage (demo mode)
+        const email = localStorage.getItem('user_email')
+        const clientUrl = email ? `/api/clients?email=${encodeURIComponent(email)}` : '/api/clients'
+
         // Fetch client data
-        const clientRes = await fetch('/api/clients')
+        const clientRes = await fetch(clientUrl)
         if (!clientRes.ok) {
           if (clientRes.status === 401) {
             // User not authenticated, show demo data
@@ -62,8 +66,9 @@ export default function DashboardPage() {
           const clientData = await clientRes.json()
           setClient(clientData)
 
-          // Fetch call stats
-          const callsRes = await fetch('/api/calls')
+          // Fetch call stats with email parameter (demo mode)
+          const callsUrl = email ? `/api/calls?email=${encodeURIComponent(email)}` : '/api/calls'
+          const callsRes = await fetch(callsUrl)
           if (callsRes.ok) {
             const callsData = await callsRes.json()
             setStats(callsData.stats)

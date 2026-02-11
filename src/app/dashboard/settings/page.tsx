@@ -19,7 +19,11 @@ export default function SettingsPage() {
   useEffect(() => {
     const fetchClient = async () => {
       try {
-        const res = await fetch('/api/clients')
+        // Get email from localStorage (demo mode)
+        const email = localStorage.getItem('user_email')
+        const clientUrl = email ? `/api/clients?email=${encodeURIComponent(email)}` : '/api/clients'
+
+        const res = await fetch(clientUrl)
         if (!res.ok) {
           // Fallback to mock data
           setClient({

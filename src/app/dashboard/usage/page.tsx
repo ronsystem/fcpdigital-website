@@ -16,7 +16,11 @@ export default function UsagePage() {
   useEffect(() => {
     const fetchUsage = async () => {
       try {
-        const res = await fetch('/api/usage')
+        // Get email from localStorage (demo mode)
+        const email = localStorage.getItem('user_email')
+        const usageUrl = email ? `/api/usage?email=${encodeURIComponent(email)}` : '/api/usage'
+
+        const res = await fetch(usageUrl)
         if (!res.ok) {
           // Fallback to mock data
           setStats({
