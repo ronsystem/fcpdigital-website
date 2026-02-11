@@ -11,6 +11,10 @@ interface ClientData {
   call_minutes_used: number
   call_minutes_limit: number
   status: string
+  twilio_number?: string
+  contact_email?: string
+  contact_phone?: string
+  vapi_assistant_id?: string
 }
 
 interface CallStats {
@@ -184,7 +188,7 @@ export default function DashboardPage() {
           <h2 className="text-xl font-semibold mb-6">Your Business Phone</h2>
           <div className="bg-black bg-opacity-30 backdrop-blur-sm p-6 rounded-xl">
             <p className="text-gray-200 text-sm mb-3">Customers can call this number 24/7</p>
-            <p className="text-4xl font-bold mb-3">+1 (415) 555-0123</p>
+            <p className="text-4xl font-bold mb-3">{client?.twilio_number || 'Configuring...'}</p>
             <p className="text-sm text-gray-200">
               <a href="/dashboard/settings" className="hover:underline font-semibold">
                 Configure in Settings →
