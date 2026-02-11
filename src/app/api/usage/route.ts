@@ -8,12 +8,42 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
   try {
+    const supabase = createClient()
+
+    // Check for business_id parameter (from RonOS Bridge)
+    const businessId = req.nextUrl.searchParams.get('business_id')
+    if (businessId) {
+      // Bridge integration - look up client by business_id
+      const { data, error } = await supabase
+        .from('clients')
+        .select('id, call_minutes_limit, call_minutes_used')
+        .eq('business_id', businessId)
+        .single()
+
+      if (error || !data) {
+        return NextResponse.json({
+          stats: { total_calls: 0, total_minutes: 0, avg_duration: 0, remaining: 0, percentage: 0 },
+          monthlyData: [],
+          limit: 0,
+          used: 0,
+        })
+      }
+
+      const stats = await getUsageStats(data.id, data.call_minutes_limit)
+      const monthlyData = await getMonthlyUsage(data.id)
+
+      return NextResponse.json({
+        stats,
+        monthlyData,
+        limit: data.call_minutes_limit,
+        used: data.call_minutes_used,
+      })
+    }
+
     // Check for demo mode (email passed as query parameter)
     const email = req.nextUrl.searchParams.get('email')
-
     if (email) {
       // Demo mode - look up client by email
-      const supabase = createClient()
       const { data, error } = await supabase
         .from('clients')
         .select('id, call_minutes_limit, call_minutes_used')

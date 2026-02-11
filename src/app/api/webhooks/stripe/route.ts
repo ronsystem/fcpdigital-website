@@ -5,21 +5,28 @@ import { createClient as createSupabaseClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe/server'
 
 /**
- * CRITICAL: This webhook bridges Stripe payments to RonOS client_onboarder skill
+ * CRITICAL: This webhook bridges Stripe payments to RonOS via Website Bridge
  *
  * Design principles:
  * - IDEMPOTENT: Stripe may deliver webhook 2x - we handle duplicates gracefully
- * - RESILIENT: If RonOS is down, we mark client as pending and retry later
+ * - RESILIENT: If RonOS Bridge is down, we mark client as pending and retry later
  * - AUDITED: All webhook events logged to track provisioning status
+ * - BUSINESS_ISOLATED: Every client tagged with business_id (Stripe customer_id)
  *
  * Flow:
  * 1. Customer pays via Stripe Checkout
  * 2. Stripe sends webhook to this endpoint (may be duplicate)
  * 3. We check if we've already processed this webhook ID (idempotency)
- * 4. Create client record in Supabase with status 'provisioning'
- * 5. Call RonOS client_onboarder (with 3 automatic retries)
- * 6. If RonOS fails, mark client as 'pending_provisioning' for manual retry
- * 7. Log all events to webhook_events table for audit trail
+ * 4. Create client record in Supabase with business_id = Stripe customer_id
+ * 5. Call RonOS Website Bridge at RONOS_WEBHOOK_URL (with 3 automatic retries)
+ * 6. Bridge receives webhook and calls ClientOnboarder.process_webhook()
+ * 7. If RonOS Bridge fails, mark client as 'pending_provisioning' for manual retry
+ * 8. Log all events to webhook_events table for audit trail
+ *
+ * Environment variable:
+ * - RONOS_WEBHOOK_URL: Base URL of RonOS Website Bridge
+ *   Development: http://localhost:5000/webhook/stripe
+ *   Production: https://ronos-bridge.yourdomain.com/webhook/stripe
  */
 
 export async function POST(req: Request) {
@@ -128,6 +135,7 @@ export async function POST(req: Request) {
       const { data: client, error: dbError } = await supabase
         .from('clients')
         .insert({
+          business_id: customerId, // NEW: Maps to stripe_customer_id for business isolation
           business_name: customer.metadata?.business_name || customer.email,
           contact_email: customer.email,
           contact_phone: customer.metadata?.phone || '',
@@ -147,39 +155,38 @@ export async function POST(req: Request) {
 
       console.log(`✅ Client created in Supabase: ${client.id}`)
 
-      // Trigger RonOS client_onboarder skill via HTTP (with retry logic)
+      // Trigger RonOS Bridge endpoint (with retry logic)
+      // Bridge will route to ClientOnboarder skill and handle provisioning
       const ronosPayload = {
-        event_type: 'customer.subscription.created',
-        client_id: client.id,
-        business_name: client.business_name,
-        contact_email: client.contact_email,
-        contact_phone: client.contact_phone,
-        plan: client.plan,
-        stripe_customer_id: customerId,
-        stripe_subscription_id: subscription.id,
+        type: 'customer.subscription.created', // Match Stripe event format
+        id: event.id,
+        customer_id: customerId, // Will be mapped to business_id in bridge
+        data: {
+          object: subscription // Full subscription object for bridge processing
+        }
       }
 
       const ronosSuccess = await callRonosWithRetry(ronosPayload)
 
       if (ronosSuccess) {
-        // Update client to active (RonOS will populate twilio_number and vapi_assistant_id)
+        // Update client to active (Bridge will call ClientOnboarder to provision Twilio + Vapi)
         await supabase.from('clients').update({ status: 'active' }).eq('id', client.id)
-        console.log(`✅ RonOS client_onboarder succeeded for: ${client.business_name}`)
+        console.log(`✅ RonOS Bridge accepted provisioning for: ${client.business_name}`)
       } else {
-        // RonOS failed even after retries - mark as pending for manual retry
+        // Bridge failed even after retries - mark as pending for manual retry
         await supabase
           .from('clients')
           .update({
             status: 'pending_provisioning',
             metadata: {
               last_provision_attempt: new Date().toISOString(),
-              provision_error: 'RonOS unreachable after 3 retries',
+              provision_error: 'RonOS Bridge unreachable after 3 retries',
             },
           })
           .eq('id', client.id)
 
         console.error(
-          `❌ Client ${client.id} marked pending - RonOS was unreachable. Manual retry needed.`
+          `❌ Client ${client.id} marked pending - RonOS Bridge was unreachable. Manual retry needed.`
         )
       }
 

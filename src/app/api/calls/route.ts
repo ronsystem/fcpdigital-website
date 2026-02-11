@@ -8,12 +8,41 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
   try {
+    const supabase = createClient()
+    const limit = req.nextUrl.searchParams.get('limit')
+      ? parseInt(req.nextUrl.searchParams.get('limit')!)
+      : 50
+
+    // Check for business_id parameter (from RonOS Bridge)
+    const businessId = req.nextUrl.searchParams.get('business_id')
+    if (businessId) {
+      // Bridge integration - look up client by business_id
+      const { data, error } = await supabase
+        .from('clients')
+        .select('id')
+        .eq('business_id', businessId)
+        .single()
+
+      if (error || !data) {
+        return NextResponse.json(
+          { calls: [], stats: { total_calls: 0, total_minutes: 0, avg_duration: 0 }, total: 0 }
+        )
+      }
+
+      const calls = await getCallsByClientId(data.id, limit)
+      const stats = await getCallStats(data.id)
+
+      return NextResponse.json({
+        calls,
+        stats,
+        total: calls.length,
+      })
+    }
+
     // Check for demo mode (email passed as query parameter)
     const email = req.nextUrl.searchParams.get('email')
-
     if (email) {
       // Demo mode - look up client by email
-      const supabase = createClient()
       const { data, error } = await supabase
         .from('clients')
         .select('id')
@@ -21,10 +50,6 @@ export async function GET(req: NextRequest) {
         .single()
 
       if (!error && data) {
-        const limit = req.nextUrl.searchParams.get('limit')
-          ? parseInt(req.nextUrl.searchParams.get('limit')!)
-          : 50
-
         const calls = await getCallsByClientId(data.id, limit)
         const stats = await getCallStats(data.id)
 
@@ -46,10 +71,6 @@ export async function GET(req: NextRequest) {
           { calls: [], stats: { total_calls: 0, total_minutes: 0, avg_duration: 0 }, total: 0 }
         )
       }
-
-      const limit = req.nextUrl.searchParams.get('limit')
-        ? parseInt(req.nextUrl.searchParams.get('limit')!)
-        : 50
 
       const calls = await getCallsByClientId(allClients[0].id, limit)
       const stats = await getCallStats(allClients[0].id)
@@ -79,10 +100,6 @@ export async function GET(req: NextRequest) {
         { status: 404 }
       )
     }
-
-    const limit = req.nextUrl.searchParams.get('limit')
-      ? parseInt(req.nextUrl.searchParams.get('limit')!)
-      : 50
 
     const calls = await getCallsByClientId(client.id, limit)
     const stats = await getCallStats(client.id)

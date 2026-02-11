@@ -7,12 +7,32 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
   try {
+    const supabase = createClient()
+
+    // Check for business_id parameter (from RonOS Bridge)
+    const businessId = req.nextUrl.searchParams.get('business_id')
+    if (businessId) {
+      // Bridge integration - query by business_id
+      const { data, error } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('business_id', businessId)
+        .single()
+
+      if (error || !data) {
+        return NextResponse.json(
+          { error: 'Client not found' },
+          { status: 404 }
+        )
+      }
+
+      return NextResponse.json(data)
+    }
+
     // Check for demo mode (email passed as query parameter)
     const email = req.nextUrl.searchParams.get('email')
-
     if (email) {
       // Demo mode - look up client by email, or return first client if no match
-      const supabase = createClient()
       const { data, error } = await supabase
         .from('clients')
         .select('*')
