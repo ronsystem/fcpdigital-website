@@ -30,26 +30,72 @@ export default function DashboardPage() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    // Mock client data - in production this would come from Supabase
-    const mockClient: ClientData = {
-      id: '1',
-      business_name: 'Test Plumbing Co',
-      plan: 'scale',
-      monthly_fee: 499,
-      call_minutes_used: 145,
-      call_minutes_limit: 1500,
-      status: 'active',
+    const fetchData = async () => {
+      try {
+        // Fetch client data
+        const clientRes = await fetch('/api/clients')
+        if (!clientRes.ok) {
+          if (clientRes.status === 401) {
+            // User not authenticated, show demo data
+            const mockClient: ClientData = {
+              id: '1',
+              business_name: 'Test Plumbing Co',
+              plan: 'scale',
+              monthly_fee: 499,
+              call_minutes_used: 145,
+              call_minutes_limit: 1500,
+              status: 'active',
+            }
+
+            const mockStats: CallStats = {
+              total_calls: 32,
+              total_minutes: 145,
+              avg_duration: 4.5,
+            }
+
+            setClient(mockClient)
+            setStats(mockStats)
+          } else {
+            setError('Failed to load client data')
+          }
+        } else {
+          const clientData = await clientRes.json()
+          setClient(clientData)
+
+          // Fetch call stats
+          const callsRes = await fetch('/api/calls')
+          if (callsRes.ok) {
+            const callsData = await callsRes.json()
+            setStats(callsData.stats)
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err)
+        // Fall back to demo data on error
+        const mockClient: ClientData = {
+          id: '1',
+          business_name: 'Test Plumbing Co',
+          plan: 'scale',
+          monthly_fee: 499,
+          call_minutes_used: 145,
+          call_minutes_limit: 1500,
+          status: 'active',
+        }
+
+        const mockStats: CallStats = {
+          total_calls: 32,
+          total_minutes: 145,
+          avg_duration: 4.5,
+        }
+
+        setClient(mockClient)
+        setStats(mockStats)
+      } finally {
+        setLoading(false)
+      }
     }
 
-    const mockStats: CallStats = {
-      total_calls: 32,
-      total_minutes: 145,
-      avg_duration: 4.5,
-    }
-
-    setClient(mockClient)
-    setStats(mockStats)
-    setLoading(false)
+    fetchData()
   }, [])
 
   if (loading) {
