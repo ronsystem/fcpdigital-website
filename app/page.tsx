@@ -72,12 +72,11 @@ export default function LandingPage() {
               </span>
             </div>
             <h1 style={{ fontSize: 'clamp(32px, 6vw, 60px)', fontWeight: 700, lineHeight: 1.1, marginBottom: 16 }}>
-              The Last Employee<br />
-              You'll Ever <span style={{ color: '#dc2626' }}>Hire.</span>
+              Never Miss a<br />
+              Customer Call <span style={{ color: '#dc2626' }}>Again.</span>
             </h1>
             <p style={{ color: '#555', fontSize: 15, lineHeight: 1.8, marginBottom: 40, maxWidth: 580 }}>
-              Your AI receptionist answers every call, books jobs, handles emergencies, and never takes a day off.
-              Service businesses using FCP Digital stop losing revenue to voicemail — permanently.
+              Your AI receptionist answers every call in 2 rings, captures customer details, and sends you HIGH PRIORITY alerts for emergencies — 24/7, for less than $10/day.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none' }}>
