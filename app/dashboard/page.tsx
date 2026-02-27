@@ -1,19 +1,16 @@
 'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 
 interface BusinessData {
   id: string
   name: string
   status: string
-  stripe_customer_id?: string
   owner_email?: string
-  owner_phone?: string
   phone_number?: string
+  twilio_number?: string
   plan?: string
   monthly_fee?: number
   call_minutes_limit?: number
-  twilio_number?: string
   call_minutes_used?: number
 }
 
@@ -21,7 +18,6 @@ interface CallStats {
   total_calls: number
   total_minutes: number
   avg_duration: number
-  escalated: number
 }
 
 interface RecentCall {
@@ -57,59 +53,34 @@ function UrgencyBadge({ level }: { level: string }) {
   )
 }
 
-function StatCard({ label, value, sub, accent }: { label: string; value: string | number; sub?: string; accent?: boolean }) {
-  return (
-    <div style={{
-      background: '#111', border: '1px solid #1e1e1e',
-      padding: '16px 20px', position: 'relative', overflow: 'hidden',
-    }}>
-      {accent && <div style={{ position: 'absolute', top: 0, left: 0, width: '3px', height: '100%', background: '#dc2626' }} />}
-      <div style={{ color: '#444', fontSize: '9px', letterSpacing: '0.2em', fontFamily: "'Space Mono', monospace", marginBottom: 6 }}>{label}</div>
-      <div style={{ color: '#fff', fontSize: '26px', fontFamily: "'Space Mono', monospace", fontWeight: 700, lineHeight: 1 }}>{value}</div>
-      {sub && <div style={{ color: '#555', fontSize: '10px', marginTop: 4, fontFamily: "'Space Mono', monospace" }}>{sub}</div>}
-    </div>
-  )
-}
-
 export default function DashboardPage() {
   const [business, setBusiness] = useState<BusinessData | null>(null)
-  const [stats, setStats] = useState<CallStats>({ total_calls: 0, total_minutes: 0, avg_duration: 0, escalated: 0 })
+  const [stats, setStats] = useState<CallStats>({ total_calls: 0, total_minutes: 0, avg_duration: 0 })
   const [recentCalls, setRecentCalls] = useState<RecentCall[]>([])
   const [loading, setLoading] = useState(true)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const email = localStorage.getItem('user_email')
         const params = email ? `?email=${encodeURIComponent(email)}` : ''
+        
         const [clientRes, callsRes] = await Promise.all([
           fetch(`/api/clients${params}`),
           fetch(`/api/calls${params}&limit=5`),
         ])
+
         if (clientRes.ok) {
           const data = await clientRes.json()
           setBusiness(data)
         }
         if (callsRes.ok) {
           const data = await callsRes.json()
-          setStats({
-            total_calls: data.stats?.total_calls ?? 0,
-            total_minutes: data.stats?.total_minutes ?? 0,
-            avg_duration: data.stats?.avg_duration ?? 0,
-            escalated: (data.calls ?? []).filter((c: RecentCall) => c.urgency === 'high').length,
-          })
-          setRecentCalls(data.calls ?? [])
+          setStats(data.stats)
+          setRecentCalls(data.calls || [])
         }
       } catch (err) {
-        console.error('Dashboard fetch error:', err)
+        console.error('Dashboard error:', err)
       } finally {
         setLoading(false)
       }
@@ -122,16 +93,10 @@ export default function DashboardPage() {
   const pct = Math.round((minutesUsed / minutesLimit) * 100)
   const plan = business?.plan ?? 'scale'
   const monthlyFee = business?.monthly_fee ?? 499
-  const aiNumber = business?.twilio_number ?? business?.phone_number ?? 'Configuring...'
+  const aiNumber = business?.twilio_number || business?.phone_number || 'Configuring...'
 
   if (loading) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {[1, 2, 3].map(i => (
-          <div key={i} style={{ background: '#111', border: '1px solid #1e1e1e', height: 80, opacity: 0.4 }} />
-        ))}
-      </div>
-    )
+    return <div style={{ color: '#444', textAlign: 'center', paddingTop: 40 }}>Loading...</div>
   }
 
   return (
@@ -145,27 +110,46 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: 12 }}>
-        <StatCard label="TOTAL CALLS" value={stats.total_calls} accent />
-        <StatCard label="CALL TIME" value={`${stats.total_minutes}m`} />
-        <StatCard label="AVG DURATION" value={`${stats.avg_duration}m`} />
-        <StatCard label="ESCALATED" value={stats.escalated} />
+      <div style={{ background: '#111', border: '1px solid #1e1e1e', padding: 20 }}>
+        <div style={{ color: '#444', fontSize: '9px', letterSpacing: '0.2em', marginBottom: 12 }}>AI RECEPTIONIST</div>
+        <div style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 8 }}>
+          <span style={{ color: '#4ade80' }}>● ACTIVE</span>
+        </div>
+        <div style={{ color: '#666', fontSize: '11px' }}>
+          Answering calls 24/7 · Responding in 2 rings
+        </div>
       </div>
 
-      <div>
-        <div style={{ marginBottom: 12 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-            <span style={{ fontSize: '11px', letterSpacing: '0.1em', color: '#444' }}>MONTHLY MINUTES</span>
-            <span style={{ fontSize: '11px', color: '#666' }}>{minutesUsed} / {minutesLimit}</span>
-          </div>
-          <div style={{ width: '100%', height: 6, background: '#1a1a1a', borderRadius: 2 }}>
-            <div style={{
-              width: `${Math.min(pct, 100)}%`,
-              height: '100%',
-              background: pct > 80 ? '#dc2626' : '#4ade80',
-              borderRadius: 2,
-            }} />
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+        <div style={{ background: '#111', border: '1px solid #1e1e1e', padding: '16px 20px', borderLeft: '3px solid #dc2626' }}>
+          <div style={{ color: '#444', fontSize: '9px', letterSpacing: '0.2em', marginBottom: 6 }}>TOTAL CALLS</div>
+          <div style={{ color: '#fff', fontSize: '26px', fontWeight: 700 }}>{stats.total_calls}</div>
+        </div>
+        <div style={{ background: '#111', border: '1px solid #1e1e1e', padding: '16px 20px' }}>
+          <div style={{ color: '#444', fontSize: '9px', letterSpacing: '0.2em', marginBottom: 6 }}>CALL TIME</div>
+          <div style={{ color: '#fff', fontSize: '26px', fontWeight: 700 }}>{stats.total_minutes}m</div>
+        </div>
+        <div style={{ background: '#111', border: '1px solid #1e1e1e', padding: '16px 20px' }}>
+          <div style={{ color: '#444', fontSize: '9px', letterSpacing: '0.2em', marginBottom: 6 }}>AVG DURATION</div>
+          <div style={{ color: '#fff', fontSize: '26px', fontWeight: 700 }}>{stats.avg_duration}m</div>
+        </div>
+        <div style={{ background: '#111', border: '1px solid #1e1e1e', padding: '16px 20px' }}>
+          <div style={{ color: '#444', fontSize: '9px', letterSpacing: '0.2em', marginBottom: 6 }}>PLAN USAGE</div>
+          <div style={{ color: '#fff', fontSize: '26px', fontWeight: 700 }}>{pct}%</div>
+        </div>
+      </div>
+
+      <div style={{ background: '#111', border: '1px solid #1e1e1e', padding: '16px 20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+          <span style={{ color: '#444', fontSize: '9px', letterSpacing: '0.15em' }}>MONTHLY MINUTES</span>
+          <span style={{ color: '#666', fontSize: '9px' }}>{minutesUsed} / {minutesLimit}</span>
+        </div>
+        <div style={{ width: '100%', height: 6, background: '#1a1a1a', borderRadius: 2, overflow: 'hidden' }}>
+          <div style={{
+            width: `${Math.min(pct, 100)}%`,
+            height: '100%',
+            background: pct > 80 ? '#dc2626' : '#4ade80',
+          }} />
         </div>
       </div>
 
@@ -180,12 +164,12 @@ export default function DashboardPage() {
                 background: '#111', border: '1px solid #1e1e1e', padding: '12px',
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
               }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ flex: 1 }}>
                   <div style={{ color: '#fff', fontSize: '12px', fontWeight: 500, marginBottom: 2 }}>{call.caller_name}</div>
                   <div style={{ color: '#666', fontSize: '11px' }}>{call.service_needed}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{ color: '#666', fontSize: '10px', textAlign: 'right' }}>{timeAgo(call.created_at)}</div>
+                  <div style={{ color: '#666', fontSize: '10px' }}>{timeAgo(call.created_at)}</div>
                   <UrgencyBadge level={call.urgency} />
                 </div>
               </div>
