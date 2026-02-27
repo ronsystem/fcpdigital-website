@@ -57,7 +57,7 @@ export default function LandingPage() {
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
           <a href="#pricing" style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>PRICING</a>
           <a href="/login" style={{ color: '#555', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>SIGN IN</a>
-          <a href="/signup" style={{ background: '#dc2626', color: '#fff', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none', padding: '8px 14px' }}>CLAIM SPOT</a>
+          <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none', padding: '8px 14px' }}>CLAIM SPOT</a>
         </div>
       </nav>
 
@@ -80,7 +80,7 @@ export default function LandingPage() {
               AI-powered call answering for service businesses. Sounds human. Books jobs. Available 24/7.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <a href="/signup" style={{ background: '#dc2626', color: '#fff', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none' }}>
+              <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none' }}>
                 CLAIM YOUR SPOT →
               </a>
               <a href="#how-it-works" style={{ background: 'transparent', color: '#555', border: '1px solid #1e1e1e', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none' }}>
@@ -133,7 +133,7 @@ export default function LandingPage() {
             <div style={{ color: '#333', fontSize: 10, marginBottom: 24, lineHeight: 1.6 }}>
               vs. $499/mo for your AI receptionist
             </div>
-            <a href="/signup" style={{ background: '#dc2626', color: '#fff', padding: '12px 20px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none', display: 'inline-block' }}>
+            <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', padding: '12px 20px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none', display: 'inline-block' }}>
               STOP THE BLEEDING →
             </a>
           </div>
@@ -230,7 +230,7 @@ export default function LandingPage() {
                     </div>
                   ))}
                 </div>
-                <a href="/signup" style={{
+                <a href={'/signup?plan=' + plan.name.toLowerCase()} style={{
                   display: 'block', textAlign: 'center', background: plan.featured ? '#dc2626' : 'transparent',
                   border: '1px solid ' + (plan.featured ? '#dc2626' : '#1e1e1e'),
                   color: '#fff', padding: '12px', fontSize: 9, letterSpacing: '0.2em',
@@ -280,7 +280,7 @@ export default function LandingPage() {
           <p style={{ color: '#444', fontSize: 13, lineHeight: 1.7, marginBottom: 32 }}>
             Your competitors are still letting calls go to voicemail. Be the business that always answers.
           </p>
-          <a href="/signup" style={{ background: '#dc2626', color: '#fff', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none', display: 'inline-block' }}>
+          <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none', display: 'inline-block' }}>
             CLAIM YOUR SPOT →
           </a>
           <div style={{ marginTop: 24, color: '#2a2a2a', fontSize: 9 }}>

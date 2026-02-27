@@ -23,7 +23,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ success: true, id: data?.id })
+    // Log the plan selection separately
+    console.log('New lead:', body.owner_email, '| Plan:', body.plan, '| Service:', body.service_type)
+
+    return NextResponse.json({ success: true, id: data?.id, plan: body.plan })
   } catch (err) {
     console.error('Leads route error:', err)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })

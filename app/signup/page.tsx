@@ -1,20 +1,61 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
+
+const FOUNDING_FILLED = 2
+const FOUNDING_TOTAL = 15
+
+const PLANS = {
+  launch: { name: 'LAUNCH', price: 249, minutes: 500 },
+  scale: { name: 'SCALE', price: 499, minutes: 1500 },
+  dominate: { name: 'DOMINATE', price: 899, minutes: 3000 },
+}
+
+type PlanKey = keyof typeof PLANS
+
+function getFoundingOffer(filled: number): { label: string; firstMonth: number; badge: string } {
+  if (filled < 5) return { label: 'Founding Tier 1', firstMonth: 1, badge: 'FIRST MONTH $1' }
+  if (filled < 15) return { label: 'Founding Tier 2', firstMonth: -50, badge: '50% OFF FIRST MONTH' }
+  return { label: 'Standard', firstMonth: 0, badge: '' }
+}
 
 const services = ['Plumbing', 'HVAC', 'Electrical', 'Landscaping', 'Roofing', 'Cleaning', 'General Contracting']
 
-export default function SignupPage() {
-  const [form, setForm] = useState({ business: '', name: '', email: '', phone: '', service: '' })
+function SignupForm() {
+  const searchParams = useSearchParams()
+  const planParam = (searchParams.get('plan') || 'scale') as PlanKey
+  const selectedPlan = PLANS[planParam] || PLANS.scale
+
+  const [form, setForm] = useState({
+    business: '',
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    plan: selectedPlan.name,
+  })
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    setForm(f => ({ ...f, plan: selectedPlan.name }))
+  }, [planParam, selectedPlan.name])
+
   const update = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }))
+
+  const offer = getFoundingOffer(FOUNDING_FILLED)
+  const spotsLeft = FOUNDING_TOTAL - FOUNDING_FILLED
+  const firstMonthPrice = offer.firstMonth === 1
+    ? 1
+    : offer.firstMonth === -50
+    ? Math.round(selectedPlan.price * 0.5)
+    : selectedPlan.price
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     try {
-      const res = await fetch('/api/leads', {
+      await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -23,16 +64,15 @@ export default function SignupPage() {
           owner_email: form.email,
           owner_phone: form.phone,
           service_type: form.service,
+          plan: form.plan.toLowerCase(),
           status: 'lead',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         }),
       })
-      if (!res.ok) throw new Error('Failed to save')
-      setSubmitted(true)
     } catch (err) {
       console.error('Signup error:', err)
-      setSubmitted(true)
     } finally {
+      setSubmitted(true)
       setLoading(false)
     }
   }
@@ -61,16 +101,28 @@ export default function SignupPage() {
   if (submitted) {
     return (
       <div style={{ minHeight: '100vh', background: '#060606', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px', fontFamily: 'monospace' }}>
-        <div style={{ maxWidth: 420, textAlign: 'center' as const }}>
-          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(74,222,128,0.15)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ color: '#4ade80', fontSize: 22 }}>✓</div>
+        <div style={{ maxWidth: 460, textAlign: 'center' as const }}>
+          <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(74,222,128,0.15)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ color: '#4ade80', fontSize: 28 }}>✓</div>
           </div>
-          <div style={{ color: '#4ade80', fontSize: 9, letterSpacing: '0.25em', marginBottom: 8 }}>SUCCESS</div>
-          <div style={{ color: '#fff', fontSize: 22, fontWeight: 700, marginBottom: 12 }}>You're on the list</div>
-          <div style={{ color: '#555', fontSize: 12, lineHeight: 1.7, marginBottom: 32 }}>
-            We'll reach out to {form.email} within 24 hours to get your AI receptionist set up.
+          <div style={{ color: '#4ade80', fontSize: 9, letterSpacing: '0.25em', marginBottom: 12 }}>CONFIRMED</div>
+          <div style={{ color: '#fff', fontSize: 26, fontWeight: 700, marginBottom: 16 }}>You're all set</div>
+          <div style={{ background: 'rgba(220,38,38,0.08)', border: '1px solid rgba(220,38,38,0.2)', padding: 16, marginBottom: 24 }}>
+            <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.15em', marginBottom: 6 }}>SELECTED PLAN</div>
+            <div style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>{form.plan}</div>
+            {offer.badge && (
+              <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', marginTop: 6 }}>
+                {offer.badge}
+              </div>
+            )}
           </div>
-          <a href="/" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>Back to home →</a>
+          <div style={{ color: '#555', fontSize: 12, lineHeight: 1.8, marginBottom: 32 }}>
+            We'll reach out to <span style={{ color: '#ccc' }}>{form.email}</span> within 24 hours to get your AI receptionist live.
+          </div>
+          <div style={{ color: '#333', fontSize: 10, lineHeight: 1.8 }}>
+            Questions? Call or text us at<br />
+            <span style={{ color: '#555' }}>+1 313 327 3170</span>
+          </div>
         </div>
       </div>
     )
@@ -85,57 +137,133 @@ export default function SignupPage() {
         </a>
         <a href="/login" style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>SIGN IN</a>
       </nav>
-
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
-        <div style={{ width: '100%', maxWidth: 420 }}>
-          <div style={{ marginBottom: 32 }}>
-            <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 8 }}>
-              FOUNDING MEMBER PRICING AVAILABLE
+      <div style={{ flex: 1, display: 'flex', padding: '40px 24px', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40, maxWidth: 1100, width: '100%' }}>
+          {/* Left: Plan Summary */}
+          <div style={{ width: '100%', maxWidth: 320 }}>
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ color: '#333', fontSize: 8, letterSpacing: '0.25em', marginBottom: 4 }}>YOUR PLAN</div>
+              <div style={{ color: '#fff', fontSize: 28, fontWeight: 700, marginBottom: 8 }}>{selectedPlan.name}</div>
             </div>
-            <div style={{ color: '#fff', fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Get AI Phone</div>
-            <div style={{ color: '#333', fontSize: 11, lineHeight: 1.6 }}>
-              Your AI receptionist answers every call, 24/7. Setup takes less than 24 hours.
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit}>
-            <label style={labelStyle}>BUSINESS NAME *</label>
-            <input type="text" required value={form.business} onChange={e => update('business', e.target.value)} placeholder="Your business name" style={inputStyle} />
-
-            <label style={labelStyle}>YOUR NAME *</label>
-            <input type="text" required value={form.name} onChange={e => update('name', e.target.value)} placeholder="Your full name" style={inputStyle} />
-
-            <label style={labelStyle}>EMAIL ADDRESS *</label>
-            <input type="email" required value={form.email} onChange={e => update('email', e.target.value)} placeholder="owner@yourbusiness.com" style={inputStyle} />
-
-            <label style={labelStyle}>PHONE NUMBER *</label>
-            <input type="tel" required value={form.phone} onChange={e => update('phone', e.target.value)} placeholder="+1 313 327 3170" style={inputStyle} />
-
-            <label style={labelStyle}>TYPE OF BUSINESS *</label>
-            <select required value={form.service} onChange={e => update('service', e.target.value)} style={{ ...inputStyle, color: form.service ? '#ccc' : '#555' }}>
-              <option value="">Select your industry...</option>
-              {services.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
-
-            <button type="submit" disabled={loading}
-              style={{ width: '100%', background: loading ? '#1a1a1a' : '#dc2626', border: '1px solid #dc2626', color: loading ? '#444' : '#fff', padding: '14px', fontSize: 10, letterSpacing: '0.2em', fontFamily: 'monospace', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 700, transition: 'all 0.2s' }}>
-              {loading ? 'SUBMITTING...' : 'CLAIM YOUR SPOT →'}
-            </button>
-          </form>
-
-          <div style={{ marginTop: 24, display: 'flex', justifyContent: 'center', gap: 24 }}>
-            {['14-day guarantee', 'Setup in 24hrs', 'No contracts'].map((t, i) => (
-              <div key={i} style={{ color: '#2a2a2a', fontSize: 9, letterSpacing: '0.1em', textAlign: 'center' as const }}>
-                {t}
+            {offer.badge && (
+              <div style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)', padding: 16, marginBottom: 20 }}>
+                <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.15em', marginBottom: 6 }}>FOUNDING MEMBER OFFER</div>
+                <div style={{ color: '#dc2626', fontSize: 11, fontWeight: 700 }}>{offer.label}</div>
+                <div style={{ color: '#555', fontSize: 9, marginTop: 4 }}>Then ${selectedPlan.price}/mo</div>
               </div>
-            ))}
+            )}
+            <div style={{ background: '#0f0f0f', border: '1px solid #1e1e1e', padding: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+                <span style={{ color: '#555', fontSize: 11 }}>First month</span>
+                <span style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>${firstMonthPrice}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                <span style={{ color: '#555', fontSize: 11 }}>After that</span>
+                <span style={{ color: '#ccc', fontSize: 13 }}>${selectedPlan.price}/mo</span>
+              </div>
+              {[
+                selectedPlan.minutes.toLocaleString() + ' minutes/month',
+                '24/7 AI answering',
+                'SMS + email alerts',
+                'Full dashboard',
+                '14-day money back',
+              ].map((f, i) => (
+                <div key={i} style={{ color: '#444', fontSize: 11, marginBottom: 8, display: 'flex', gap: 8 }}>
+                  <span style={{ color: '#dc2626' }}>✓</span>
+                  <span>{f}</span>
+                </div>
+              ))}
+            </div>
+            {spotsLeft > 0 && (
+              <div style={{ marginTop: 16, color: '#333', fontSize: 9, textAlign: 'center' as const }}>
+                {spotsLeft} founding spots remaining
+              </div>
+            )}
+            {/* Plan switcher */}
+            <div style={{ marginTop: 20 }}>
+              <div style={{ color: '#2a2a2a', fontSize: 8, letterSpacing: '0.15em', marginBottom: 8 }}>SWITCH PLAN</div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {(Object.keys(PLANS) as PlanKey[]).map(key => (
+                  <a key={key} href={'/signup?plan=' + key} style={{
+                    flex: 1,
+                    textAlign: 'center' as const,
+                    padding: '8px 4px',
+                    background: planParam === key ? 'rgba(220,38,38,0.1)' : 'transparent',
+                    border: '1px solid ' + (planParam === key ? '#dc2626' : '#1a1a1a'),
+                    color: planParam === key ? '#dc2626' : '#333',
+                    fontSize: 8,
+                    letterSpacing: '0.1em',
+                    textDecoration: 'none',
+                  }}>
+                    {PLANS[key].name}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div style={{ marginTop: 16, textAlign: 'center' as const, color: '#222', fontSize: 9 }}>
-            Already have an account? <a href="/login" style={{ color: '#dc2626', textDecoration: 'none' }}>Sign in</a>
+          {/* Right: Form */}
+          <div style={{ width: '100%', maxWidth: 400 }}>
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ color: '#fff', fontSize: 22, fontWeight: 700, marginBottom: 8 }}>Get Started</div>
+              <div style={{ color: '#333', fontSize: 11, lineHeight: 1.6 }}>
+                Fill in your details and we'll have your AI answering calls within 24 hours.
+              </div>
+            </div>
+            <form onSubmit={handleSubmit}>
+              <label style={labelStyle}>BUSINESS NAME *</label>
+              <input type="text" required value={form.business} onChange={e => update('business', e.target.value)} placeholder="Your business name" style={inputStyle} />
+
+              <label style={labelStyle}>YOUR NAME *</label>
+              <input type="text" required value={form.name} onChange={e => update('name', e.target.value)} placeholder="Your full name" style={inputStyle} />
+
+              <label style={labelStyle}>EMAIL ADDRESS *</label>
+              <input type="email" required value={form.email} onChange={e => update('email', e.target.value)} placeholder="owner@yourbusiness.com" style={inputStyle} />
+
+              <label style={labelStyle}>PHONE NUMBER *</label>
+              <input type="tel" required value={form.phone} onChange={e => update('phone', e.target.value)} placeholder="+1 313 327 3170" style={inputStyle} />
+
+              <label style={labelStyle}>TYPE OF BUSINESS *</label>
+              <select required value={form.service} onChange={e => update('service', e.target.value)} style={{ ...inputStyle, color: form.service ? '#ccc' : '#555' }}>
+                <option value="">Select your industry...</option>
+                {services.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+
+              <input type="hidden" value={form.plan} />
+
+              <button type="submit" disabled={loading} style={{
+                width: '100%',
+                background: loading ? '#1a1a1a' : '#dc2626',
+                border: 'none',
+                color: loading ? '#444' : '#fff',
+                padding: 16,
+                fontSize: 10,
+                letterSpacing: '0.2em',
+                fontFamily: 'monospace',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                fontWeight: 700,
+                marginTop: 8,
+              }}>
+                {loading ? 'SUBMITTING...' : 'CLAIM YOUR SPOT →'}
+              </button>
+            </form>
+
+            <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center', gap: 20 }}>
+              {['No contracts', '14-day guarantee', 'Live in 24hrs'].map((t, i) => (
+                <span key={i} style={{ color: '#2a2a2a', fontSize: 9 }}>✓ {t}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: '#060606', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555', fontFamily: 'monospace' }}>Loading...</div>}>
+      <SignupForm />
+    </Suspense>
   )
 }
