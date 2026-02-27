@@ -13,9 +13,28 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    await new Promise(r => setTimeout(r, 800))
-    setSubmitted(true)
-    setLoading(false)
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.business,
+          owner_name: form.name,
+          owner_email: form.email,
+          owner_phone: form.phone,
+          service_type: form.service,
+          status: 'lead',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        }),
+      })
+      if (!res.ok) throw new Error('Failed to save')
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Signup error:', err)
+      setSubmitted(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const inputStyle = {
