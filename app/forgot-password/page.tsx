@@ -6,24 +6,19 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
-  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
     try {
-      const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
+      await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: 'https://ai.fcpdigital.net/reset-password',
       })
-      if (authError) throw authError
-      setSent(true)
     } catch (err) {
       console.error(err)
-      setSent(true)
-    } finally {
-      setLoading(false)
     }
+    setSent(true)
+    setLoading(false)
   }
 
   return (
@@ -39,23 +34,43 @@ export default function ForgotPasswordPage() {
         <div style={{ width: '100%', maxWidth: 380 }}>
           {sent ? (
             <div style={{ textAlign: 'center' as const }}>
-              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(74,222,128,0.15)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ color: '#4ade80', fontSize: 22 }}>✓</div>
-              </div>
+              <div style={{
+                width: 56, height: 56, borderRadius: '50%',
+                background: 'rgba(74,222,128,0.1)',
+                border: '1px solid rgba(74,222,128,0.3)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 24px', fontSize: 24, color: '#4ade80',
+              }}>✓</div>
               <div style={{ color: '#4ade80', fontSize: 9, letterSpacing: '0.25em', marginBottom: 8 }}>CHECK YOUR EMAIL</div>
-              <div style={{ color: '#fff', fontSize: 18, fontWeight: 700, marginBottom: 12 }}>Reset link sent</div>
-              <div style={{ color: '#555', fontSize: 11, lineHeight: 1.7, marginBottom: 24 }}>
-                If an account exists for {email}, you'll receive a password reset link shortly.
+              <div style={{ color: '#fff', fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Reset link sent</div>
+              <div style={{ color: '#555', fontSize: 12, lineHeight: 1.8, marginBottom: 16 }}>
+                If an account exists for
               </div>
-              <a href="/login" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>← Back to sign in</a>
+              <div style={{ color: '#ccc', fontSize: 13, fontWeight: 700, marginBottom: 16 }}>
+                {email}
+              </div>
+              <div style={{ color: '#555', fontSize: 12, lineHeight: 1.8, marginBottom: 32 }}>
+                you will receive a password reset link shortly.<br />Check your spam folder if you don't see it within a few minutes.
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12, alignItems: 'center' }}>
+                <a href="/login" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>
+                  ← BACK TO SIGN IN
+                </a>
+                <button
+                  onClick={() => { setSent(false); setEmail('') }}
+                  style={{ background: 'transparent', border: 'none', color: '#333', fontSize: 9, letterSpacing: '0.15em', cursor: 'pointer', fontFamily: 'monospace' }}
+                >
+                  TRY A DIFFERENT EMAIL
+                </button>
+              </div>
             </div>
           ) : (
             <>
               <div style={{ marginBottom: 32 }}>
                 <div style={{ color: '#333', fontSize: 8, letterSpacing: '0.25em', marginBottom: 8 }}>ACCOUNT RECOVERY</div>
                 <div style={{ color: '#fff', fontSize: 24, fontWeight: 700, marginBottom: 8 }}>Reset Your Password</div>
-                <div style={{ color: '#333', fontSize: 10, lineHeight: 1.6 }}>
-                  Enter your email and we'll send you a reset link.
+                <div style={{ color: '#555', fontSize: 11, lineHeight: 1.7 }}>
+                  Enter the email address associated with your account. We'll send you a secure link to set a new password.
                 </div>
               </div>
               <form onSubmit={handleSubmit}>
@@ -67,20 +82,43 @@ export default function ForgotPasswordPage() {
                     onChange={e => setEmail(e.target.value)}
                     placeholder="owner@yourbusiness.com"
                     required
-                    style={{ width: '100%', background: '#0f0f0f', border: '1px solid #1e1e1e', color: '#ccc', padding: '12px 14px', fontSize: 12, fontFamily: 'monospace', outline: 'none' }}
+                    autoFocus
+                    style={{
+                      width: '100%',
+                      background: '#0f0f0f',
+                      border: '1px solid #1e1e1e',
+                      color: '#ccc',
+                      padding: '12px 14px',
+                      fontSize: 12,
+                      fontFamily: 'monospace',
+                      outline: 'none',
+                      boxSizing: 'border-box' as const,
+                    }}
                   />
                 </div>
-                {error && (
-                  <div style={{ background: 'rgba(220,38,38,0.08)', border: '1px solid rgba(220,38,38,0.2)', color: '#f87171', padding: '10px 14px', fontSize: 10, marginBottom: 16 }}>
-                    {error}
-                  </div>
-                )}
-                <button type="submit" disabled={loading} style={{ width: '100%', background: loading ? '#1a1a1a' : '#dc2626', border: '1px solid #dc2626', color: loading ? '#444' : '#fff', padding: '14px', fontSize: 10, letterSpacing: '0.2em', fontFamily: 'monospace', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 700, transition: 'all 0.2s' }}>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    width: '100%',
+                    background: loading ? '#1a1a1a' : '#dc2626',
+                    border: 'none',
+                    color: loading ? '#444' : '#fff',
+                    padding: 14,
+                    fontSize: 10,
+                    letterSpacing: '0.2em',
+                    fontFamily: 'monospace',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    fontWeight: 700,
+                  }}
+                >
                   {loading ? 'SENDING...' : 'SEND RESET LINK →'}
                 </button>
               </form>
-              <div style={{ marginTop: 24, color: '#222', fontSize: 9, textAlign: 'center' as const }}>
-                <a href="/login" style={{ color: '#333', textDecoration: 'none' }}>← Back to sign in</a>
+              <div style={{ marginTop: 24, textAlign: 'center' as const }}>
+                <a href="/login" style={{ color: '#333', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>
+                  ← Back to sign in
+                </a>
               </div>
             </>
           )}

@@ -27,10 +27,10 @@ export default function LoginPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#060606', display: 'flex', flexDirection: 'column' as const, fontFamily: 'monospace' }}>
       <nav style={{ padding: '0 24px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #0f0f0f' }}>
-        <div style={{ fontSize: 13, fontWeight: 700 }}>
+        <a href="/" style={{ textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
           <span style={{ color: '#fff' }}>FCP</span>
           <span style={{ color: '#dc2626' }}>DIGITAL</span>
-        </div>
+        </a>
         <a href="/signup" style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>CREATE ACCOUNT</a>
       </nav>
 

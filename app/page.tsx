@@ -72,12 +72,12 @@ export default function LandingPage() {
               </span>
             </div>
             <h1 style={{ fontSize: 'clamp(32px, 6vw, 60px)', fontWeight: 700, lineHeight: 1.1, marginBottom: 16 }}>
-              Your Phone Answers.<br />
-              <span style={{ color: '#dc2626' }}>Every Call.</span><br />
-              Every Night.
+              The Last Employee<br />
+              You'll Ever <span style={{ color: '#dc2626' }}>Hire.</span>
             </h1>
-            <p style={{ color: '#555', fontSize: 15, lineHeight: 1.8, marginBottom: 40 }}>
-              AI-powered call answering for service businesses. Sounds human. Books jobs. Available 24/7.
+            <p style={{ color: '#555', fontSize: 15, lineHeight: 1.8, marginBottom: 40, maxWidth: 580 }}>
+              Your AI receptionist answers every call, books jobs, handles emergencies, and never takes a day off.
+              Service businesses using FCP Digital stop losing revenue to voicemail — permanently.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none' }}>
@@ -291,17 +291,23 @@ export default function LandingPage() {
 
       {/* FOOTER */}
       <div style={{ borderTop: '1px solid #0f0f0f', padding: '32px 24px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: 13, fontWeight: 700 }}>
-            <span style={{ color: '#fff' }}>FCP</span>
-            <span style={{ color: '#dc2626' }}>DIGITAL</span>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+            <div style={{ fontSize: 13, fontWeight: 700 }}>
+              <span style={{ color: '#fff' }}>FCP</span>
+              <span style={{ color: '#dc2626' }}>DIGITAL</span>
+            </div>
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+              <span style={{ color: '#2a2a2a', fontSize: 9 }}>services@fcpdigital.net</span>
+              <span style={{ color: '#2a2a2a', fontSize: 9 }}>+1 313 327 3170</span>
+            </div>
+            <div style={{ color: '#1a1a1a', fontSize: 9 }}>
+              © 2026 FCP Digital
+            </div>
           </div>
-          <div style={{ display: 'flex', gap: 24 }}>
-            <span style={{ color: '#2a2a2a', fontSize: 9 }}>services@fcpdigital.net</span>
-            <span style={{ color: '#2a2a2a', fontSize: 9 }}>+1 313 327 3170</span>
-          </div>
-          <div style={{ color: '#1a1a1a', fontSize: 9 }}>
-            © 2026 FCP Digital
+          <div style={{ borderTop: '1px solid #0a0a0a', paddingTop: 16, display: 'flex', gap: 24 }}>
+            <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>
+            <a href="/terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>TERMS & CONDITIONS</a>
           </div>
         </div>
       </div>
