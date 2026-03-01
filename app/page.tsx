@@ -71,12 +71,13 @@ export default function LandingPage() {
                 {spotsLeft} FOUNDING SPOTS REMAINING
               </span>
             </div>
-            <h1 style={{ fontSize: 'clamp(32px, 6vw, 60px)', fontWeight: 700, lineHeight: 1.1, marginBottom: 16 }}>
+            <h1 style={{ fontSize: 'clamp(32px, 6vw, 60px)', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 24 }}>
               Never Miss a<br />
               Customer Call <span style={{ color: '#dc2626' }}>Again.</span>
             </h1>
-            <p style={{ color: '#555', fontSize: 15, lineHeight: 1.8, marginBottom: 40, maxWidth: 580 }}>
-              Your AI receptionist answers every call in 2 rings, captures customer details, and sends you HIGH PRIORITY alerts for emergencies — 24/7, for less than $10/day.
+            <p style={{ color: '#555', fontSize: 15, lineHeight: 1.8, marginBottom: 40, maxWidth: 520 }}>
+              Your AI receptionist answers every call in 2 rings, captures customer details,
+              and sends you HIGH PRIORITY alerts for emergencies — 24/7, for less than $10/day.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', padding: '14px 28px', fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, textDecoration: 'none' }}>
@@ -291,7 +292,7 @@ export default function LandingPage() {
       {/* FOOTER */}
       <div style={{ borderTop: '1px solid #0f0f0f', padding: '32px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
             <div style={{ fontSize: 13, fontWeight: 700 }}>
               <span style={{ color: '#fff' }}>FCP</span>
               <span style={{ color: '#dc2626' }}>DIGITAL</span>
@@ -300,9 +301,7 @@ export default function LandingPage() {
               <span style={{ color: '#2a2a2a', fontSize: 9 }}>services@fcpdigital.net</span>
               <span style={{ color: '#2a2a2a', fontSize: 9 }}>+1 313 327 3170</span>
             </div>
-            <div style={{ color: '#1a1a1a', fontSize: 9 }}>
-              © 2026 FCP Digital
-            </div>
+            <div style={{ color: '#1a1a1a', fontSize: 9 }}>© 2026 FCP Digital</div>
           </div>
           <div style={{ borderTop: '1px solid #0a0a0a', paddingTop: 16, display: 'flex', gap: 24 }}>
             <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>

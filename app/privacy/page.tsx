@@ -3,59 +3,31 @@
 export default function PrivacyPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#060606', color: '#fff', fontFamily: 'monospace' }}>
-      <nav style={{ padding: '0 24px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #0f0f0f' }}>
+      <nav style={{ padding: '0 24px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #0f0f0f', position: 'sticky', top: 0, background: '#060606', zIndex: 100 }}>
         <a href="/" style={{ textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
-          <span style={{ color: '#fff' }}>FCP</span>
-          <span style={{ color: '#dc2626' }}>DIGITAL</span>
+          <span style={{ color: '#fff' }}>FCP</span><span style={{ color: '#dc2626' }}>DIGITAL</span>
         </a>
-        <a href="/" style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>BACK HOME</a>
+        <a href="/" style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>← BACK</a>
       </nav>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '60px 24px' }}>
-        <div style={{ color: '#333', fontSize: 8, letterSpacing: '0.25em', marginBottom: 8 }}>LEGAL</div>
-        <h1 style={{ color: '#fff', fontSize: 28, fontWeight: 700, marginBottom: 8, lineHeight: 1.2 }}>Privacy Policy</h1>
+        <div style={{ color: '#333', fontSize: 8, letterSpacing: '0.25em', marginBottom: 12 }}>LEGAL</div>
+        <h1 style={{ color: '#fff', fontSize: 28, fontWeight: 700, marginBottom: 8 }}>Privacy Policy</h1>
         <div style={{ color: '#333', fontSize: 10, marginBottom: 48 }}>Last updated: February 2026</div>
         {[
-          {
-            title: 'Information We Collect',
-            body: 'We collect information you provide directly to us when you sign up for FCP Digital, including your business name, email address, phone number, and service type. We also collect call recordings and transcripts from your AI receptionist.',
-          },
-          {
-            title: 'How We Use Your Information',
-            body: 'We use the information we collect to provide, maintain, and improve our service. This includes training our AI model, generating call transcripts, and analyzing call patterns to help you manage your business.',
-          },
-          {
-            title: 'Call Recording and Transcripts',
-            body: 'Our AI receptionist service records and transcribes calls made to your business. You are responsible for ensuring compliance with all applicable call recording and consent laws in your jurisdiction.',
-          },
-          {
-            title: 'Information Sharing',
-            body: 'We do not sell, trade, or rent your personal information to third parties. We may share information with service providers who help us operate our platform, and only under strict confidentiality agreements.',
-          },
-          {
-            title: 'Data Security',
-            body: 'We implement industry-standard security measures to protect your information. However, no method of transmission over the internet is 100% secure. We cannot guarantee absolute security of your data.',
-          },
-          {
-            title: 'Data Retention',
-            body: 'We retain your account information for as long as your account is active. You may request deletion of your data at any time by contacting us at services@fcpdigital.net.',
-          },
-          {
-            title: 'Your Rights',
-            body: 'You have the right to access, update, or delete your personal information. You may also request a copy of the data we hold about you. Contact us at services@fcpdigital.net to exercise these rights.',
-          },
-          {
-            title: 'Changes to This Policy',
-            body: 'We may update this privacy policy from time to time. We will notify you of any significant changes by posting the updated policy on this page.',
-          },
-          {
-            title: 'Contact Us',
-            body: 'If you have questions about this privacy policy or our privacy practices, please contact us at services@fcpdigital.net or call +1 313 327 3170.',
-          },
-        ].map((section, i) => (
+          { title: 'Information We Collect', body: 'We collect information you provide directly to us when you sign up for our services, including your name, business name, email address, and phone number. We also collect information about how you use our services, including call logs, transcripts, and usage data associated with your account.' },
+          { title: 'How We Use Your Information', body: 'We use the information we collect to provide, maintain, and improve our services, to process transactions, to send you technical notices and support messages, and to respond to your comments and questions. We may also use your information to send you marketing communications, though you may opt out at any time.' },
+          { title: 'Call Recording and Transcripts', body: 'Our AI receptionist service records and transcribes calls made to your business phone number. These recordings and transcripts are stored securely and made available to you through your dashboard. By using our service, you are responsible for ensuring callers are properly notified of recording as required by applicable law in your jurisdiction.' },
+          { title: 'Information Sharing', body: 'We do not sell, trade, or rent your personal information to third parties. We may share your information with trusted service providers who assist us in operating our platform, including cloud infrastructure providers and communication service providers, subject to confidentiality agreements.' },
+          { title: 'Data Security', body: 'We implement industry-standard security measures to protect your information. All data is encrypted in transit and at rest. However, no method of transmission over the internet is 100% secure and we cannot guarantee absolute security.' },
+          { title: 'Data Retention', body: 'We retain your account information for as long as your account is active. Call recordings and transcripts are retained for 90 days by default. You may request deletion of your data at any time by contacting us at services@fcpdigital.net.' },
+          { title: 'Your Rights', body: 'You have the right to access, update, or delete your personal information at any time. You may also request a copy of the data we hold about you. To exercise these rights, contact us at services@fcpdigital.net.' },
+          { title: 'Changes to This Policy', body: 'We may update this privacy policy from time to time. We will notify you of any significant changes by email or through a notice on our website. Your continued use of our services after such changes constitutes your acceptance of the updated policy.' },
+          { title: 'Contact Us', body: 'If you have questions about this privacy policy, please contact us at services@fcpdigital.net or +1 313 327 3170.' },
+        ].map((s, i) => (
           <div key={i} style={{ marginBottom: 40 }}>
-            <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 8 }}>{section.title.toUpperCase()}</div>
-            <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>{section.title}</h2>
-            <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9 }}>{section.body}</p>
+            <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 10 }}>{'0' + (i + 1)}</div>
+            <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>{s.title}</h2>
+            <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>{s.body}</p>
           </div>
         ))}
       </div>
