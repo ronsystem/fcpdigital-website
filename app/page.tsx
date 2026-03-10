@@ -306,6 +306,7 @@ export default function LandingPage() {
           <div style={{ borderTop: '1px solid #0a0a0a', paddingTop: 16, display: 'flex', gap: 24 }}>
             <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>
             <a href="/terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>TERMS & CONDITIONS</a>
+            <a href="/sms-terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>SMS TERMS</a>
           </div>
         </div>
       </div>

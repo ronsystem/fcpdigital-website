@@ -34,6 +34,7 @@ function SignupForm() {
     service: '',
     plan: selectedPlan.name,
   })
+  const [smsConsent, setSmsConsent] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -223,6 +224,30 @@ function SignupForm() {
               <label style={labelStyle}>PHONE NUMBER *</label>
               <input type="tel" required value={form.phone} onChange={e => update('phone', e.target.value)} placeholder="+1 313 327 3170" style={inputStyle} />
 
+              {/* SMS Consent Checkbox */}
+              <div style={{ marginBottom: 20, padding: 14, background: '#0f0f0f', border: '1px solid #1e1e1e' }}>
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', color: '#ccc', fontSize: 11, lineHeight: 1.6 }}>
+                  <input
+                    type="checkbox"
+                    checked={smsConsent}
+                    onChange={e => setSmsConsent(e.target.checked)}
+                    style={{ marginTop: 3, cursor: 'pointer', minWidth: 18, width: 18, height: 18 }}
+                  />
+                  <span>
+                    I agree to receive SMS notifications from FCP Digital regarding inbound call alerts and lead activity from the AI receptionist system. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time. Reply HELP for assistance.
+                  </span>
+                </label>
+              </div>
+
+              {/* Links to policy pages */}
+              <div style={{ marginBottom: 16, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' as const }}>
+                <a href="/privacy" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>PRIVACY POLICY</a>
+                <span style={{ color: '#2a2a2a' }}>|</span>
+                <a href="/terms" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>TERMS</a>
+                <span style={{ color: '#2a2a2a' }}>|</span>
+                <a href="/sms-terms" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>SMS TERMS</a>
+              </div>
+
               <label style={labelStyle}>TYPE OF BUSINESS *</label>
               <select required value={form.service} onChange={e => update('service', e.target.value)} style={{ ...inputStyle, color: form.service ? '#ccc' : '#555' }}>
                 <option value="">Select your industry...</option>
@@ -254,6 +279,16 @@ function SignupForm() {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      <div style={{ borderTop: '1px solid #0f0f0f', padding: '24px' }}>
+        <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>
+          <span style={{ color: '#0a0a0a' }}>|</span>
+          <a href="/terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>TERMS & CONDITIONS</a>
+          <span style={{ color: '#0a0a0a' }}>|</span>
+          <a href="/sms-terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>SMS TERMS</a>
         </div>
       </div>
     </div>

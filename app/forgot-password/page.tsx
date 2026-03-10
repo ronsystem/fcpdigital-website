@@ -94,6 +94,16 @@ export default function ForgotPasswordPage() {
           )}
         </div>
       </div>
+
+      <div style={{ borderTop: '1px solid #0f0f0f', padding: '24px' }}>
+        <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>
+          <span style={{ color: '#0a0a0a' }}>|</span>
+          <a href="/terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>TERMS & CONDITIONS</a>
+          <span style={{ color: '#0a0a0a' }}>|</span>
+          <a href="/sms-terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>SMS TERMS</a>
+        </div>
+      </div>
     </div>
   )
 }
