@@ -96,6 +96,9 @@ export default function SmsConsentPage() {
 
       <div style={{ flex: 1, display: 'flex', padding: '40px 24px', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ width: '100%', maxWidth: 400 }}>
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ color: '#dc2626', fontSize: 14, fontWeight: 700, marginBottom: 24 }}>FCP Digital — SMS Notifications</div>
+          </div>
           <div style={{ marginBottom: 32 }}>
             <div style={{ color: '#fff', fontSize: 22, fontWeight: 700, marginBottom: 8 }}>SMS Notifications</div>
             <div style={{ color: '#333', fontSize: 11, lineHeight: 1.6 }}>
@@ -150,7 +153,7 @@ export default function SmsConsentPage() {
                   style={{ marginTop: 3, cursor: 'pointer', minWidth: 18, width: 18, height: 18 }}
                 />
                 <span>
-                  I agree to receive SMS notifications from FCP Digital regarding inbound call alerts and lead activity from the AI receptionist system. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time. Reply HELP for assistance.
+                  I agree to receive SMS notifications from FCP Digital regarding inbound call alerts and lead activity from the AI receptionist system. Message frequency depends on your account activity. You may receive multiple messages per day during active call periods. Message and data rates may apply. Reply STOP to opt out at any time. Reply HELP for assistance.
                 </span>
               </label>
             </div>

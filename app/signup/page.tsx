@@ -234,7 +234,7 @@ function SignupForm() {
                     style={{ marginTop: 3, cursor: 'pointer', minWidth: 18, width: 18, height: 18 }}
                   />
                   <span>
-                    I agree to receive SMS notifications from FCP Digital regarding inbound call alerts and lead activity from the AI receptionist system. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time. Reply HELP for assistance.
+                    I agree to receive SMS notifications from FCP Digital regarding inbound call alerts and lead activity from the AI receptionist system. Message frequency depends on your account activity. You may receive multiple messages per day during active call periods. Message and data rates may apply. Reply STOP to opt out at any time. Reply HELP for assistance.
                   </span>
                 </label>
               </div>

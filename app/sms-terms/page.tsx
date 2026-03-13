@@ -2,15 +2,15 @@
 
 export default function SmsTermsPage() {
   const items = [
-    { title: 'PROGRAM NAME', body: 'FCP Digital Operational Notifications' },
-    { title: 'SENDER', body: 'FCP Digital (Full Clip Productions LLC)' },
-    { title: 'MESSAGE TYPES', body: 'Inbound call alerts, lead notifications, call summaries' },
-    { title: 'MESSAGE FREQUENCY', body: 'Varies based on call activity on your account' },
-    { title: 'COST', body: 'Message and data rates may apply depending on your carrier' },
-    { title: 'TO OPT OUT', body: 'Reply STOP — one final confirmation sent, then no further messages' },
-    { title: 'FOR HELP', body: 'Reply HELP or contact services@fcpdigital.net / +1 313 327 3170' },
-    { title: 'CARRIER LIABILITY', body: 'Carriers are not liable for delayed or undelivered messages' },
-    { title: 'DATA SHARING', body: 'Mobile opt-in data will not be shared with third parties for marketing' },
+    { title: 'PROGRAM NAME', body: 'FCP Digital Operational Notifications', isHtml: false },
+    { title: 'SENDER', body: 'FCP Digital (Full Clip Productions LLC)', isHtml: false },
+    { title: 'MESSAGE TYPES', body: 'Inbound call alerts, lead notifications, call summaries', isHtml: false },
+    { title: 'MESSAGE FREQUENCY', body: 'Varies based on call activity on your account', isHtml: false },
+    { title: 'COST', body: 'Message and data rates may apply depending on your carrier', isHtml: false },
+    { title: 'TO OPT OUT', body: 'Reply <strong>STOP</strong> — one final confirmation sent, then no further messages', isHtml: true },
+    { title: 'FOR HELP', body: 'Reply <strong>HELP</strong> or contact services@fcpdigital.net / +1 313 327 3170', isHtml: true },
+    { title: 'CARRIER LIABILITY', body: 'Carriers are not liable for delayed or undelivered messages', isHtml: false },
+    { title: 'DATA SHARING', body: 'Mobile opt-in data will not be shared with third parties for marketing', isHtml: false },
   ]
 
   return (
@@ -30,7 +30,11 @@ export default function SmsTermsPage() {
           <div key={i} style={{ marginBottom: 40 }}>
             <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 10 }}>{'0' + (i + 1)}</div>
             <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>{item.title}</h2>
-            <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>{item.body}</p>
+            {item.isHtml ? (
+              <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }} dangerouslySetInnerHTML={{ __html: item.body }} />
+            ) : (
+              <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>{item.body}</p>
+            )}
           </div>
         ))}
 
