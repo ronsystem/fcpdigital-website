@@ -69,11 +69,8 @@ export default function ContactPage() {
           <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'rgba(74,222,128,0.15)', margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ color: '#4ade80', fontSize: 28 }}>✓</div>
           </div>
-          <div style={{ color: '#4ade80', fontSize: 9, letterSpacing: '0.25em', marginBottom: 12, textTransform: 'uppercase' }}>Message Received</div>
-          <div style={{ color: '#fff', fontSize: 22, fontWeight: 700, marginBottom: 16 }}>We'll be in touch</div>
-          <div style={{ color: '#555', fontSize: 12, lineHeight: 1.8, marginBottom: 32 }}>
-            Thanks for reaching out. We'll respond within 24 hours.
-          </div>
+          <div style={{ color: '#4ade80', fontSize: 9, letterSpacing: '0.25em', marginBottom: 12, textTransform: 'uppercase' }}>Submitted</div>
+          <div style={{ color: '#fff', fontSize: 22, fontWeight: 700, marginBottom: 16 }}>Thank you for submitting.</div>
           <a href="/" style={{ color: '#dc2626', fontSize: 10, letterSpacing: '0.1em', textDecoration: 'none', fontWeight: 700 }}>← BACK HOME</a>
         </div>
       </div>
