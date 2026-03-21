@@ -56,6 +56,7 @@ export default function LandingPage() {
         </div>
         <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
           <a href="#pricing" style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>PRICING</a>
+          <a href="/contact" style={{ color: '#555', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>CONTACT</a>
           <a href="/login" style={{ color: '#555', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none' }}>SIGN IN</a>
           <a href="/signup?plan=scale" style={{ background: '#dc2626', color: '#fff', fontSize: 9, letterSpacing: '0.15em', textDecoration: 'none', padding: '8px 14px' }}>CLAIM SPOT</a>
         </div>

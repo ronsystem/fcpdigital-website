@@ -5,7 +5,7 @@ export default function SmsTermsPage() {
     { title: 'PROGRAM NAME', body: 'FCP Digital Operational Notifications', isHtml: false },
     { title: 'SENDER', body: 'FCP Digital (Full Clip Productions LLC)', isHtml: false },
     { title: 'MESSAGE TYPES', body: 'Inbound call alerts, lead notifications, call summaries', isHtml: false },
-    { title: 'MESSAGE FREQUENCY', body: 'Varies based on call activity on your account', isHtml: false },
+    { title: 'MESSAGE FREQUENCY', body: 'Depends on your account activity. You may receive multiple messages per day during active call periods.', isHtml: false },
     { title: 'COST', body: 'Message and data rates may apply depending on your carrier', isHtml: false },
     { title: 'TO OPT OUT', body: 'Reply <strong>STOP</strong> — one final confirmation sent, then no further messages', isHtml: true },
     { title: 'FOR HELP', body: 'Reply <strong>HELP</strong> or contact services@fcpdigital.net / +1 313 327 3170', isHtml: true },
@@ -42,7 +42,9 @@ export default function SmsTermsPage() {
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' as const }}>
             <a href="/privacy" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>PRIVACY POLICY</a>
             <span style={{ color: '#2a2a2a' }}>|</span>
-            <a href="/terms" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>TERMS</a>
+            <a href="/terms" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>TERMS & CONDITIONS</a>
+            <span style={{ color: '#2a2a2a' }}>|</span>
+            <a href="/sms-terms" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>SMS TERMS</a>
           </div>
         </div>
       </div>
