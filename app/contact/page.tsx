@@ -19,17 +19,18 @@ export default function ContactPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          first_name: form.firstName,
-          last_name: form.lastName,
+          firstName: form.firstName,
+          lastName: form.lastName,
           phone: form.phone,
           email: form.email,
-          sms_nonmarketing_consent: consents.nonMarketing,
-          sms_marketing_consent: consents.marketing,
+          smsNonmarketingConsent: consents.nonMarketing,
+          smsMarketingConsent: consents.marketing,
         }),
       })
 
       if (!response.ok) {
-        throw new Error('Failed to send message')
+        const errorData = await response.json().catch(() => ({ error: 'Failed to send message' }))
+        throw new Error(errorData.error || 'Failed to send message')
       }
 
       setSubmitted(true)
