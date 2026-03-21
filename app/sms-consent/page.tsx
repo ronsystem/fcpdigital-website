@@ -153,7 +153,7 @@ export default function SmsConsentPage() {
                   style={{ marginTop: 3, cursor: 'pointer', minWidth: 18, width: 18, height: 18 }}
                 />
                 <span>
-                  I agree to receive SMS notifications from FCP Digital regarding inbound call alerts and lead activity from the AI receptionist system. Message frequency depends on your account activity. You may receive multiple messages per day during active call periods. Message and data rates may apply. Reply STOP to opt out at any time. Reply HELP for assistance.
+                  I agree to receive SMS notifications from DELONTI HENRY DBA FCP DIGITAL regarding inbound call alerts and lead activity from the AI receptionist system. Message frequency varies. Message and data rates may apply. Reply STOP to opt out at any time. Reply HELP for assistance.
                 </span>
               </label>
             </div>
@@ -190,7 +190,7 @@ export default function SmsConsentPage() {
 
           {/* Fine print */}
           <div style={{ color: '#333', fontSize: 9, lineHeight: 1.8, textAlign: 'center' as const }}>
-            By submitting this form you confirm you are the mobile account holder or have authorization to opt in this number. FCP Digital will never share or sell your mobile number or SMS opt-in data to third parties or affiliates for marketing or promotional purposes. Standard messaging rates may apply. For support: services@fcpdigital.net or +1 313 327 3170.
+            By submitting this form you confirm you are the mobile account holder or have authorization to opt in this number. DELONTI HENRY DBA FCP DIGITAL will never share or sell your mobile number or SMS opt-in data to third parties or affiliates for marketing or promotional purposes. Standard messaging rates may apply. For support: services@fcpdigital.net or +1 313 327 3170.
           </div>
         </div>
       </div>

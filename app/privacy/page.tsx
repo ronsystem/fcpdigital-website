@@ -19,7 +19,7 @@ export default function PrivacyPage() {
 
         <div style={{ background: '#0f0f0f', border: '1px solid #1e1e1e', padding: 20, marginBottom: 48, borderRadius: 4 }}>
           <div style={{ color: '#dc2626', fontSize: 11, lineHeight: 1.8 }}>
-            <strong>IMPORTANT NOTICE:</strong> FCP Digital ("we," "us," or "our") DOES NOT share customer opt-in information, including phone numbers and consent records, with any affiliates or third parties for marketing, promotional, or any other purposes unrelated to providing our direct services. All text messaging originator opt-in data is kept strictly confidential.
+            <strong>IMPORTANT NOTICE:</strong> DELONTI HENRY DBA FCP DIGITAL ("we," "us," or "our") DOES NOT share customer opt-in information, including phone numbers and consent records, with any affiliates or third parties for marketing, promotional, or any other purposes unrelated to providing our direct services. All text messaging originator opt-in data is kept strictly confidential.
           </div>
         </div>
 
@@ -103,10 +103,13 @@ export default function PrivacyPage() {
         <div style={{ marginBottom: 40 }}>
           <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 10 }}>10</div>
           <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Contact Us</h2>
-          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>FCP Digital (Full Clip Productions LLC)<br />Phone: +1 313 327 3170<br />Email: services@fcpdigital.net<br />Website: ai.fcpdigital.net<br /><br />By using our website and services, you consent to this Privacy Policy.</p>
+          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>DELONTI HENRY DBA FCP DIGITAL<br />Phone: +1 313 327 3170<br />Email: services@fcpdigital.net<br />Website: ai.fcpdigital.net<br /><br />By using the website and services of DELONTI HENRY DBA FCP DIGITAL, you consent to this Privacy Policy.</p>
         </div>
 
         <div style={{ marginTop: 60, paddingTop: 40, borderTop: '1px solid #0f0f0f' }}>
+          <div style={{ marginBottom: 12, textAlign: 'center' as const }}>
+            <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}>DELONTI HENRY DBA FCP DIGITAL</div>
+          </div>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' as const }}>
             <a href="/privacy" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>PRIVACY POLICY</a>
             <span style={{ color: '#2a2a2a' }}>|</span>

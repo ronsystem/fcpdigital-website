@@ -166,7 +166,7 @@ export default function ContactPage() {
                   onChange={e => setConsents(c => ({ ...c, nonMarketing: e.target.checked }))}
                   style={{ marginTop: 3, cursor: 'pointer', minWidth: 18, width: 18, height: 18 }}
                 />
-                <span>By checking this box, I consent to receive non-marketing text messages from FCP Digital about appointment reminders, order confirmations, and account notifications, among others. Message frequency varies, message & data rates may apply. Text HELP for assistance, reply STOP to opt out.</span>
+                <span>By checking this box, I consent to receive non-marketing text messages from DELONTI HENRY DBA FCP DIGITAL about appointment reminders, order confirmations, and account notifications, among others. Message frequency varies, message & data rates may apply. Text HELP for assistance, reply STOP to opt out.</span>
               </label>
             </div>
 
@@ -178,14 +178,17 @@ export default function ContactPage() {
                   onChange={e => setConsents(c => ({ ...c, marketing: e.target.checked }))}
                   style={{ marginTop: 3, cursor: 'pointer', minWidth: 18, width: 18, height: 18 }}
                 />
-                <span>By checking this box, I consent to receive marketing and promotional messages including special offers, discounts, and new product updates from FCP Digital at the phone number provided. Frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.</span>
+                <span>By checking this box, I consent to receive marketing and promotional messages including special offers, discounts, and new product updates from DELONTI HENRY DBA FCP DIGITAL at the phone number provided. Frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.</span>
               </label>
             </div>
 
-            <div style={{ marginBottom: 24, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' as const }}>
-              <a href="/privacy" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>PRIVACY POLICY</a>
-              <span style={{ color: '#2a2a2a' }}>|</span>
-              <a href="/terms" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>TERMS OF SERVICE</a>
+            <div style={{ marginBottom: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+              <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}>DELONTI HENRY DBA FCP DIGITAL</div>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' as const }}>
+                <a href="/privacy" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>PRIVACY POLICY</a>
+                <span style={{ color: '#2a2a2a' }}>|</span>
+                <a href="/terms" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>TERMS OF SERVICE</a>
+              </div>
             </div>
 
             <button

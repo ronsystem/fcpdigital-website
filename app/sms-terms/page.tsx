@@ -3,7 +3,7 @@
 export default function SmsTermsPage() {
   const items = [
     { title: 'PROGRAM NAME', body: 'FCP Digital Operational Notifications', isHtml: false },
-    { title: 'SENDER', body: 'FCP Digital (Full Clip Productions LLC)', isHtml: false },
+    { title: 'SENDER', body: 'DELONTI HENRY DBA FCP DIGITAL', isHtml: false },
     { title: 'MESSAGE TYPES', body: 'Inbound call alerts, lead notifications, call summaries', isHtml: false },
     { title: 'MESSAGE FREQUENCY', body: 'Depends on your account activity. You may receive multiple messages per day during active call periods.', isHtml: false },
     { title: 'COST', body: 'Message and data rates may apply depending on your carrier', isHtml: false },
@@ -39,6 +39,9 @@ export default function SmsTermsPage() {
         ))}
 
         <div style={{ marginTop: 60, paddingTop: 40, borderTop: '1px solid #0f0f0f' }}>
+          <div style={{ marginBottom: 12, textAlign: 'center' as const }}>
+            <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}>DELONTI HENRY DBA FCP DIGITAL</div>
+          </div>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' as const }}>
             <a href="/privacy" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>PRIVACY POLICY</a>
             <span style={{ color: '#2a2a2a' }}>|</span>

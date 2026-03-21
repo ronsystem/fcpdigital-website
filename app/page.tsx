@@ -302,12 +302,16 @@ export default function LandingPage() {
               <span style={{ color: '#2a2a2a', fontSize: 9 }}>services@fcpdigital.net</span>
               <span style={{ color: '#2a2a2a', fontSize: 9 }}>+1 313 327 3170</span>
             </div>
-            <div style={{ color: '#1a1a1a', fontSize: 9 }}>© 2026 FCP Digital</div>
+            <div style={{ color: '#1a1a1a', fontSize: 9 }}>© 2026 DELONTI HENRY DBA FCP DIGITAL</div>
           </div>
-          <div style={{ borderTop: '1px solid #0a0a0a', paddingTop: 16, display: 'flex', gap: 24 }}>
-            <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>
-            <a href="/terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>TERMS & CONDITIONS</a>
-            <a href="/sms-terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>SMS TERMS</a>
+          <div style={{ borderTop: '1px solid #0a0a0a', paddingTop: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}>DELONTI HENRY DBA FCP DIGITAL</div>
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+              <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>
+              <a href="/terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>TERMS & CONDITIONS</a>
+              <a href="/sms-terms" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>SMS TERMS</a>
+              <a href="/contact" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>CONTACT</a>
+            </div>
           </div>
         </div>
       </div>

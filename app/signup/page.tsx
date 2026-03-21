@@ -283,6 +283,9 @@ function SignupForm() {
       </div>
 
       <div style={{ borderTop: '1px solid #0f0f0f', padding: '24px' }}>
+        <div style={{ marginBottom: 12, textAlign: 'center' as const }}>
+          <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}>DELONTI HENRY DBA FCP DIGITAL</div>
+        </div>
         <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
           <a href="/privacy" style={{ color: '#1e1e1e', fontSize: 9, textDecoration: 'none', letterSpacing: '0.1em' }}>PRIVACY POLICY</a>
           <span style={{ color: '#0a0a0a' }}>|</span>

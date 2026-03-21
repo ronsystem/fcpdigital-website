@@ -22,7 +22,7 @@ export default function TermsPage() {
           <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>SMS Messaging Terms & Compliance</h2>
           <div style={{ color: '#555', fontSize: 12, lineHeight: 1.9 }}>
             <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>Effective Date: March 2026</strong></p>
-            <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>1. Program Description:</strong> This messaging program sends operational notifications to clients who have subscribed to FCP Digital's AI receptionist service through our website at ai.fcpdigital.net, or via our signup forms, and have explicitly opted in to receive SMS notifications. Opt-in is collected via web forms with a dedicated checkbox for SMS consent. Messages include inbound call alerts, lead notifications, call summaries, and account support communications.</p>
+            <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>1. Program Description:</strong> This messaging program sends operational notifications to clients who have subscribed to DELONTI HENRY DBA FCP DIGITAL's AI receptionist service through our website at ai.fcpdigital.net, or via our signup forms, and have explicitly opted in to receive SMS notifications. Opt-in is collected via web forms with a dedicated checkbox for SMS consent. Messages include inbound call alerts, lead notifications, call summaries, and account support communications.</p>
             <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>2. Cancellation Instructions:</strong> You can cancel the SMS service at any time. Simply text "STOP" to the same number that sent you messages. Upon sending "STOP," we will confirm your unsubscribe status via SMS. Following this confirmation, you will no longer receive SMS messages from us. To rejoin, sign up as you did initially, and we will resume sending SMS messages to you.</p>
             <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>3. Support Information:</strong> If you experience issues with the messaging program, reply with the keyword "HELP" for more assistance, or reach out directly to services@fcpdigital.net or call +1 313 327 3170 during business hours.</p>
             <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>4. Carrier Liability:</strong> Carriers are not liable for delayed or undelivered messages.</p>
@@ -37,7 +37,7 @@ export default function TermsPage() {
         <div style={{ marginBottom: 40 }}>
           <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 10 }}>02</div>
           <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>General Terms</h2>
-          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>This website (the "Site") is owned and operated by FCP Digital (Full Clip Productions LLC) ("COMPANY," "we" or "us"). By using the Site, you agree to be bound by these Terms of Service and to use the Site in accordance with these Terms of Service, our Privacy Policy, and any additional terms and conditions that may apply to specific sections of the Site or to products and services available through the Site or from FCP Digital.<br /><br />Accessing the Site, in any manner, whether automated or otherwise, constitutes use of the Site and your agreement to be bound by these Terms of Service.<br /><br />We reserve the right to change these Terms of Service or to impose new conditions on the use of the Site from time to time, in which case we will post the revised Terms of Service on this website. By continuing to use the Site after we post any such changes, you accept the Terms of Service, as modified.</p>
+          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>This website (the "Site") is owned and operated by DELONTI HENRY DBA FCP DIGITAL ("COMPANY," "we" or "us"). By using the Site, you agree to be bound by these Terms of Service and to use the Site in accordance with these Terms of Service, our Privacy Policy, and any additional terms and conditions that may apply to specific sections of the Site or to products and services available through the Site or from DELONTI HENRY DBA FCP DIGITAL.<br /><br />Accessing the Site, in any manner, whether automated or otherwise, constitutes use of the Site and your agreement to be bound by these Terms of Service.<br /><br />We reserve the right to change these Terms of Service or to impose new conditions on the use of the Site from time to time, in which case we will post the revised Terms of Service on this website. By continuing to use the Site after we post any such changes, you accept the Terms of Service, as modified.</p>
         </div>
 
         <div style={{ marginBottom: 40 }}>
@@ -45,7 +45,7 @@ export default function TermsPage() {
           <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Intellectual Property Rights</h2>
           <div style={{ color: '#555', fontSize: 12, lineHeight: 1.9 }}>
             <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>Our Limited License to You</strong></p>
-            <p style={{ margin: '0 0 12px 0' }}>This Site and all the materials available on the Site are the property of FCP Digital and/or our affiliates or licensors and are protected by copyright, trademark, and other intellectual property laws. The Site is provided solely for your personal non-commercial use. You may not use the Site or the materials available on the Site in a manner that constitutes an infringement of our rights or that has not been authorized by us.</p>
+            <p style={{ margin: '0 0 12px 0' }}>This Site and all the materials available on the Site are the property of DELONTI HENRY DBA FCP DIGITAL and/or our affiliates or licensors and are protected by copyright, trademark, and other intellectual property laws. The Site is provided solely for your personal non-commercial use. You may not use the Site or the materials available on the Site in a manner that constitutes an infringement of our rights or that has not been authorized by us.</p>
             <p style={{ margin: '0 0 12px 0' }}><strong style={{ color: '#999' }}>Your License to Us</strong></p>
             <p style={{ margin: '0 0 0 0' }}>By posting or submitting any material to us via the Site, you represent that you own the material or have obtained the necessary permissions. You grant us a royalty-free, perpetual, irrevocable, non-exclusive, worldwide license to use, modify, transmit, sell, exploit, create derivative works from, distribute, and publicly perform or display such material.</p>
           </div>
@@ -54,13 +54,13 @@ export default function TermsPage() {
         <div style={{ marginBottom: 40 }}>
           <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 10 }}>04</div>
           <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Disclaimers</h2>
-          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>The information, products, and services offered on or through the Site are provided "as is" and without warranties of any kind, either express or implied. To the fullest extent permissible pursuant to applicable law, we disclaim all warranties, including implied warranties of merchantability and fitness for a particular purpose.<br /><br />You agree at all times to indemnify and hold harmless FCP Digital, its affiliates, and their respective officers, directors, agents, and employees from any claims, causes of action, damages, liabilities, costs, and expenses arising out of or related to your breach of any obligation, warranty, or representation under these Terms of Service.</p>
+          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>The information, products, and services offered on or through the Site are provided "as is" and without warranties of any kind, either express or implied. To the fullest extent permissible pursuant to applicable law, we disclaim all warranties, including implied warranties of merchantability and fitness for a particular purpose.<br /><br />You agree at all times to indemnify and hold harmless DELONTI HENRY DBA FCP DIGITAL, its affiliates, and their respective officers, directors, agents, and employees from any claims, causes of action, damages, liabilities, costs, and expenses arising out of or related to your breach of any obligation, warranty, or representation under these Terms of Service.</p>
         </div>
 
         <div style={{ marginBottom: 40 }}>
           <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 10 }}>05</div>
           <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Online Commerce</h2>
-          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>Certain sections of the Site may allow you to purchase products and services. Your participation in any dealings with third-party vendors is solely between you and the third party. FCP Digital shall not be responsible for any loss or damage incurred as a result of such dealings.</p>
+          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>Certain sections of the Site may allow you to purchase products and services. Your participation in any dealings with third-party vendors is solely between you and the third party. DELONTI HENRY DBA FCP DIGITAL shall not be responsible for any loss or damage incurred as a result of such dealings.</p>
         </div>
 
         <div style={{ marginBottom: 40 }}>
@@ -90,10 +90,13 @@ export default function TermsPage() {
         <div style={{ marginBottom: 40 }}>
           <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.2em', marginBottom: 10 }}>10</div>
           <h2 style={{ color: '#fff', fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Contact Us</h2>
-          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>FCP Digital (Full Clip Productions LLC)<br />Phone: +1 313 327 3170<br />Email: services@fcpdigital.net<br />Website: ai.fcpdigital.net<br /><br />By using our website and services, you consent to these Terms of Service.</p>
+          <p style={{ color: '#555', fontSize: 12, lineHeight: 1.9, margin: 0 }}>DELONTI HENRY DBA FCP DIGITAL<br />Phone: +1 313 327 3170<br />Email: services@fcpdigital.net<br />Website: ai.fcpdigital.net<br /><br />By using the website and services of DELONTI HENRY DBA FCP DIGITAL, you consent to these Terms of Service.</p>
         </div>
 
         <div style={{ marginTop: 60, paddingTop: 40, borderTop: '1px solid #0f0f0f' }}>
+          <div style={{ marginBottom: 12, textAlign: 'center' as const }}>
+            <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase' }}>DELONTI HENRY DBA FCP DIGITAL</div>
+          </div>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' as const }}>
             <a href="/privacy" style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.1em', textDecoration: 'none' }}>PRIVACY POLICY</a>
             <span style={{ color: '#2a2a2a' }}>|</span>
