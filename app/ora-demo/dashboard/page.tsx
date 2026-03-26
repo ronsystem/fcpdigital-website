@@ -147,6 +147,26 @@ export default function OraDashboard() {
           <div style={{ marginBottom: 8 }}>
             <a href="/ora-demo" style={{ color: '#666', textDecoration: 'none', display: 'block' }}>Back to VIP List</a>
           </div>
+          <button
+            onClick={() => {
+              document.cookie = 'demo_auth=; path=/ora-demo; max-age=0'
+              router.push('/ora-demo/login')
+            }}
+            style={{
+              background: 'none',
+              border: '1px solid #1a1a1a',
+              color: '#555',
+              fontSize: 9,
+              letterSpacing: '0.2em',
+              fontFamily: 'monospace',
+              padding: '8px 12px',
+              cursor: 'pointer',
+              width: '100%',
+              marginBottom: 12,
+            }}
+          >
+            SIGN OUT
+          </button>
           <div style={{ marginTop: 8 }}>POWERED BY FCP DIGITAL</div>
         </div>
       </div>

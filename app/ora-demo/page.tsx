@@ -135,6 +135,25 @@ export default function OraDemoOptIn() {
             <div style={{ color: '#2a2a2a', fontSize: 10, lineHeight: 1.8, fontFamily: 'monospace', textAlign: 'center' }}>
               By joining you agree to receive text messages from Ora Detroit powered by FCP Digital. Message frequency varies. Reply STOP to unsubscribe. Msg & data rates may apply.
             </div>
+
+            {/* QR Code Alternative */}
+            {!submitted && (
+              <div style={{ marginTop: 48, textAlign: 'center', borderTop: '1px solid #1a1a1a', paddingTop: 40 }}>
+                <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace', marginBottom: 16 }}>
+                  OR SCAN TO JOIN
+                </div>
+                <div style={{ display: 'inline-block', padding: 16, background: '#0a0a0a', border: '1px solid #1a1a1a' }}>
+                  <img
+                    src="/qr-vip-ora.png"
+                    alt="Scan to join Ora Detroit VIP"
+                    style={{ width: 160, height: 160, display: 'block' }}
+                  />
+                </div>
+                <div style={{ color: '#333', fontSize: 10, marginTop: 12, fontFamily: 'monospace' }}>
+                  Text VIP ORA to +1 (313) 327-3170
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

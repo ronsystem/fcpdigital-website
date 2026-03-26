@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Send welcome SMS to guest only — no data saved, no DB writes
-    const welcomeMessage = `Welcome to ${venueSlug} VIP list! 🎉 You're on the list. Expect early access to events and exclusive offers. Reply STOP to unsubscribe.`
+    const firstName = name.split(' ')[0]
+    const welcomeMessage = `Welcome to ${venueSlug} VIP, ${firstName}! 🎉 You're on the list. Expect early access to events and exclusive offers. Reply STOP to unsubscribe.`
 
     await sendTwilioSMS(accountSid, authToken, twilioNumber, phone, welcomeMessage)
 
