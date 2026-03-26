@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     await sendTwilioSMS(accountSid, authToken, twilioNumber, phone, confirmationMessage)
 
     // Send alert SMS to Tay's phone
-    const taysNumber = process.env.TAY_PHONE_NUMBER || '+1313327317 0'
+    const taysNumber = process.env.TAY_PHONE_NUMBER || '+13133273170'
     const alertMessage = `New Ora Detroit VIP subscriber: ${name} (${phone})`
 
     await sendTwilioSMS(accountSid, authToken, twilioNumber, taysNumber, alertMessage)
