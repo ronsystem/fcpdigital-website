@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     await sendTwilioSMS(accountSid, authToken, twilioNumber, phone, confirmationMessage)
 
     // Send alert SMS to Tay's phone
-    const taysNumber = process.env.TAY_PHONE_NUMBER || '+13133273170'
+    const taysNumber = process.env.TAY_PHONE_NUMBER || '+13135728627'
     const alertMessage = `New Ora Detroit VIP subscriber: ${name} (${phone})`
 
     await sendTwilioSMS(accountSid, authToken, twilioNumber, taysNumber, alertMessage)
@@ -43,8 +43,9 @@ export async function POST(request: NextRequest) {
     )
   } catch (error) {
     console.error('Error processing form submission:', error)
+    const errorMessage = error instanceof Error ? error.message : String(error)
     return NextResponse.json(
-      { error: 'Failed to process submission' },
+      { error: 'Failed to process submission', details: errorMessage },
       { status: 500 }
     )
   }
