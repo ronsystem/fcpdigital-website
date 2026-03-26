@@ -41,19 +41,20 @@ export default function OraDemoOptIn() {
           .ora-success-icon { font-size: 36px !important; }
           .ora-success-welcome { font-size: 18px !important; }
         }
+        @media (max-width: 480px) {
+          .ora-logo-heading { font-size: 24px !important; }
+          .ora-subheading { font-size: 11px !important; }
+          .ora-container { padding: 32px 16px !important; }
+          input { font-size: 12px !important; }
+          button { font-size: 9px !important; }
+        }
         .nav-link { color: #999; text-decoration: none; transition: color 0.2s; }
         .nav-link:hover { color: #C9A96E; }
       `}} />
 
-      {/* Navigation */}
-      <div className="ora-nav" style={{ padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', borderBottom: '1px solid #1a1a1a' }}>
-        <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace' }}>POWERED BY FCP DIGITAL</div>
-        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-          <a href="/ora-demo/dashboard" className="nav-link" style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }}>DASHBOARD</a>
-          <a href="/clubs" className="nav-link" style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }}>CLUB INTEL</a>
-          <a href="/nightlife" className="nav-link" style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }}>PRICING</a>
-          <a href="/" className="nav-link" style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }}>HOME</a>
-        </div>
+      {/* Subtle Footer */}
+      <div style={{ padding: '12px 24px', textAlign: 'center' }}>
+        <div style={{ color: '#333', fontSize: 8, letterSpacing: '0.2em', fontFamily: 'monospace' }}>POWERED BY FCP DIGITAL</div>
       </div>
 
       <div className="ora-container" style={{ maxWidth: 480, margin: '0 auto', padding: '60px 24px' }}>

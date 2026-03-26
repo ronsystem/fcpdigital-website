@@ -6,17 +6,23 @@ export default function NightlifePricing() {
       <style dangerouslySetInnerHTML={{ __html: `
         .nav-link { color: #999; text-decoration: none; transition: color 0.2s; }
         .nav-link:hover { color: #C9A96E; }
+        @media (max-width: 768px) {
+          h1 { font-size: 28px !important; }
+          h2 { font-size: 20px !important; }
+          .pricing-grid { grid-template-columns: 1fr !important; }
+          .faq-section { padding: 40px 16px !important; }
+          .pricing-section { padding: 40px 16px !important; }
+        }
+        @media (max-width: 480px) {
+          h1 { font-size: 22px !important; }
+          h2 { font-size: 16px !important; }
+          p { font-size: 12px !important; }
+          .pricing-section { padding: 32px 12px !important; }
+          .faq-section { padding: 32px 12px !important; }
+          button { padding: 10px 20px !important; font-size: 9px !important; }
+        }
       `}} />
 
-      {/* Navigation */}
-      <div style={{ padding: '12px 24px', borderBottom: '1px solid #1a1a1a', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '24px' }}>
-        <a href="/" style={{ fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace' }} className="nav-link">FCP DIGITAL</a>
-        <div style={{ display: 'flex', gap: '24px' }}>
-          <a href="/ora-demo" style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }} className="nav-link">ORA DEMO</a>
-          <a href="/ora-demo/dashboard" style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }} className="nav-link">DASHBOARD</a>
-          <a href="/clubs" style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }} className="nav-link">CLUB INTEL</a>
-        </div>
-      </div>
 
       {/* Header */}
       <div style={{ padding: '32px 24px', borderBottom: '1px solid #1a1a1a' }}>
@@ -28,11 +34,11 @@ export default function NightlifePricing() {
       </div>
 
       {/* Pricing Tiers */}
-      <div style={{ padding: '80px 24px' }}>
+      <div className="pricing-section" style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <h2 style={{ fontSize: 32, fontWeight: 400, marginBottom: 64, textAlign: 'center', letterSpacing: '0.05em' }}>Service Tiers</h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+          <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
             {/* PULSE */}
             <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', padding: 32, borderRadius: 4 }}>
               <div style={{ fontSize: 14, letterSpacing: '0.2em', fontFamily: 'monospace', fontWeight: 700, marginBottom: 24 }}>PULSE</div>
@@ -50,9 +56,7 @@ export default function NightlifePricing() {
                   'Weekly pulse reports',
                   'Guest frequency tracking',
                   'Cold guest flagging (30+ days)',
-                  'Basic SMS campaigns (2/mo)',
-                  'Instagram read-only monitoring',
-                  'FCP Digital branding visible'
+                  'Basic SMS campaigns (2/mo)'
                 ].map((feature, idx) => (
                   <div key={idx} style={{ fontSize: 11, color: '#ccc', marginBottom: 12, lineHeight: 1.6 }}>
                     ✓ {feature}
@@ -80,14 +84,14 @@ export default function NightlifePricing() {
               <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 24, marginBottom: 24 }}>
                 <div style={{ color: '#C9A96E', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', marginBottom: 16, fontWeight: 700 }}>EVERYTHING IN PULSE, PLUS:</div>
                 {[
-                  'AI Receptionist (Vapi) - 24/7 calls',
+                  'AI Call Receptionist — 24/7 availability',
                   'POS integration & spend tracking',
                   'Spend intelligence & VIP auto-tagging',
                   'Re-engagement automation',
                   'Guest segmentation (6 segments)',
                   'Campaign automation (event-triggered)',
                   'Basic AI dashboard chat',
-                  'Vapi recovery calls (1-3 ratings)',
+                  'Automated recovery calls for negative feedback',
                   'Fully white-labeled dashboard',
                   'Monthly intelligence reports'
                 ].map((feature, idx) => (
@@ -139,7 +143,7 @@ export default function NightlifePricing() {
       </div>
 
       {/* FAQ */}
-      <div style={{ padding: '80px 24px', background: '#0d0d0d', borderTop: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }}>
+      <div className="faq-section" style={{ padding: '80px 24px', background: '#0d0d0d', borderTop: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <h2 style={{ fontSize: 32, fontWeight: 400, marginBottom: 48, textAlign: 'center', letterSpacing: '0.05em' }}>Frequently Asked Questions</h2>
 

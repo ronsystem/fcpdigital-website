@@ -2,19 +2,11 @@
 import { useState } from 'react'
 
 export default function OraDashboard() {
-  const [activeTab, setActiveTab] = useState('overview')
-  const [chatOpen, setChatOpen] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [vapiCallOpen, setVapiCallOpen] = useState(false)
-  const [callState, setCallState] = useState('ready')
-
-  const navItems = [
-    { label: 'OVERVIEW', id: 'overview' },
-    { label: 'GUEST LIST', id: 'guest-list' },
-    { label: 'CAMPAIGNS', id: 'campaigns' },
-    { label: 'CALENDAR', id: 'calendar' },
-    { label: 'REPORTS', id: 'reports' },
-    { label: 'SPEND INTEL', id: 'spend-intel' },
+  // Data arrays (must be before state initialization)
+  const events = [
+    { id: 1, name: 'Techno Friday', date: 'Mar 28', type: 'nightclub', capacity: 500, vipSent: true },
+    { id: 2, name: 'Sunday Brunch Jazz', date: 'Mar 29', type: 'brunch', capacity: 200, vipSent: false },
+    { id: 3, name: 'Ladies Night', date: 'Apr 4', type: 'nightclub', capacity: 600, vipSent: false },
   ]
 
   const topSpenders = [
@@ -57,10 +49,22 @@ export default function OraDashboard() {
     { id: 5, name: 'St. Patrick\'s Day Bash', date: 'Mar 8', audience: 847, type: 'Event', open: '68%', click: '31%', revenue: '$4,520' },
   ]
 
-  const events = [
-    { id: 1, name: 'Techno Friday', date: 'Mar 28', type: 'nightclub', capacity: 500, vipSent: true },
-    { id: 2, name: 'Sunday Brunch Jazz', date: 'Mar 29', type: 'brunch', capacity: 200, vipSent: false },
-    { id: 3, name: 'Ladies Night', date: 'Apr 4', type: 'nightclub', capacity: 600, vipSent: false },
+  // State hooks
+  const [activeTab, setActiveTab] = useState('overview')
+  const [chatOpen, setChatOpen] = useState(false)
+  const [vapiCallOpen, setVapiCallOpen] = useState(false)
+  const [callState, setCallState] = useState('ready')
+  const [addEventOpen, setAddEventOpen] = useState(false)
+  const [newEvent, setNewEvent] = useState({ name: '', date: '', type: 'nightclub', capacity: '', ticketLink: '', notes: '' })
+  const [eventsList, setEventsList] = useState(events)
+
+  const navItems = [
+    { label: 'OVERVIEW', id: 'overview' },
+    { label: 'GUEST LIST', id: 'guest-list' },
+    { label: 'CAMPAIGNS', id: 'campaigns' },
+    { label: 'CALENDAR', id: 'calendar' },
+    { label: 'REPORTS', id: 'reports' },
+    { label: 'SPEND INTEL', id: 'spend-intel' },
   ]
 
   return (
@@ -78,10 +82,20 @@ export default function OraDashboard() {
         @media (max-width: 768px) {
           .stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .content-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
-          .dashboard-content { padding: 12px !important; }
+          .dashboard-content { padding: 12px 12px 80px 12px !important; }
           .card { padding: 16px !important; }
           table { font-size: 9px !important; }
           table td, table th { padding: 8px 4px !important; }
+          .demo-call-widget { bottom: 16px !important; right: 16px !important; }
+          .demo-call-button { padding: 8px 12px !important; font-size: 8px !important; }
+        }
+        @media (max-width: 480px) {
+          .dashboard-sidebar { position: static !important; }
+          .dashboard-content { margin-left: 0 !important; padding: 8px 8px 80px 8px !important; }
+          .stat-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+          .card { padding: 12px !important; font-size: 12px !important; }
+          table { font-size: 8px !important; }
+          .demo-call-button { padding: 6px 8px !important; font-size: 7px !important; }
         }
       `}} />
       <div className="dashboard-container" style={{ display: 'flex', minHeight: '100vh' }}>
@@ -112,18 +126,16 @@ export default function OraDashboard() {
           ))}
         </div>
 
-        <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16, fontSize: 7, color: '#222', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
+        <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid #1a1a1a', fontSize: 8, color: '#333', fontFamily: 'monospace', letterSpacing: '0.1em' }}>
           <div style={{ marginBottom: 8 }}>
-            <a href="/clubs" style={{ color: '#666', textDecoration: 'none', display: 'block', marginBottom: 4 }}>Club Intel</a>
-            <a href="/nightlife" style={{ color: '#666', textDecoration: 'none', display: 'block', marginBottom: 4 }}>Pricing</a>
-            <a href="/ora-demo" style={{ color: '#666', textDecoration: 'none', display: 'block' }}>Back</a>
+            <a href="/ora-demo" style={{ color: '#666', textDecoration: 'none', display: 'block' }}>Back to VIP List</a>
           </div>
-          <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 8, marginTop: 8 }}>POWERED BY FCP DIGITAL</div>
+          <div style={{ marginTop: 8 }}>POWERED BY FCP DIGITAL</div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="dashboard-content" style={{ marginLeft: 200, flex: 1, padding: '32px', overflow: 'auto' }}>
+      <div className="dashboard-content" style={{ marginLeft: 200, flex: 1, padding: '32px 32px 80px 32px', overflow: 'auto' }}>
 
         {activeTab === 'overview' && (
           <>
@@ -281,11 +293,133 @@ export default function OraDashboard() {
 
         {activeTab === 'calendar' && (
           <div className="card" style={{ background: '#111', border: '1px solid #1a1a1a', padding: 24 }}>
-            <div style={{ color: '#fff', fontSize: 12, letterSpacing: '0.15em', fontFamily: 'monospace', fontWeight: 700, marginBottom: 24 }}>
-              EVENT CALENDAR
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <div style={{ color: '#fff', fontSize: 12, letterSpacing: '0.15em', fontFamily: 'monospace', fontWeight: 700 }}>
+                EVENT CALENDAR
+              </div>
+              <button
+                onClick={() => setAddEventOpen(!addEventOpen)}
+                style={{ background: '#C9A96E', color: '#0a0a0a', border: 'none', padding: '8px 16px', fontSize: 9, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '0.1em', cursor: 'pointer' }}
+              >
+                {addEventOpen ? 'CLOSE' : '+ ADD EVENT'}
+              </button>
             </div>
+
+            {addEventOpen && (
+              <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', padding: 24, marginBottom: 24, borderRadius: 4 }}>
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace', marginBottom: 6 }}>EVENT NAME</div>
+                  <input
+                    type="text"
+                    value={newEvent.name}
+                    onChange={e => setNewEvent({ ...newEvent, name: e.target.value })}
+                    placeholder="e.g. Techno Friday"
+                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#ccc', padding: '12px', fontSize: 11, fontFamily: 'Georgia, serif', outline: 'none', boxSizing: 'border-box' as const }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace', marginBottom: 6 }}>DATE</div>
+                  <input
+                    type="date"
+                    value={newEvent.date}
+                    onChange={e => setNewEvent({ ...newEvent, date: e.target.value })}
+                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#ccc', padding: '12px', fontSize: 11, fontFamily: 'Georgia, serif', outline: 'none', boxSizing: 'border-box' as const }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace', marginBottom: 6 }}>EVENT TYPE</div>
+                  <select
+                    value={newEvent.type}
+                    onChange={e => setNewEvent({ ...newEvent, type: e.target.value })}
+                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#ccc', padding: '12px', fontSize: 11, fontFamily: 'Georgia, serif', outline: 'none', boxSizing: 'border-box' as const }}
+                  >
+                    <option value="nightclub">Nightclub</option>
+                    <option value="brunch">Brunch</option>
+                    <option value="live-music">Live Music</option>
+                    <option value="private">Private</option>
+                    <option value="holiday">Holiday</option>
+                  </select>
+                </div>
+
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace', marginBottom: 6 }}>EXPECTED CAPACITY</div>
+                  <input
+                    type="number"
+                    value={newEvent.capacity}
+                    onChange={e => setNewEvent({ ...newEvent, capacity: e.target.value })}
+                    placeholder="e.g. 500"
+                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#ccc', padding: '12px', fontSize: 11, fontFamily: 'Georgia, serif', outline: 'none', boxSizing: 'border-box' as const }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace', marginBottom: 6 }}>TICKET LINK (optional)</div>
+                  <input
+                    type="url"
+                    value={newEvent.ticketLink}
+                    onChange={e => setNewEvent({ ...newEvent, ticketLink: e.target.value })}
+                    placeholder="https://..."
+                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#ccc', padding: '12px', fontSize: 11, fontFamily: 'Georgia, serif', outline: 'none', boxSizing: 'border-box' as const }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ color: '#555', fontSize: 9, letterSpacing: '0.2em', fontFamily: 'monospace', marginBottom: 6 }}>NOTES (optional)</div>
+                  <textarea
+                    value={newEvent.notes}
+                    onChange={e => setNewEvent({ ...newEvent, notes: e.target.value })}
+                    placeholder="Additional details..."
+                    style={{ width: '100%', background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#ccc', padding: '12px', fontSize: 11, fontFamily: 'Georgia, serif', outline: 'none', boxSizing: 'border-box' as const, minHeight: '80px', resize: 'vertical' as const }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <button
+                    onClick={() => {
+                      setAddEventOpen(false)
+                      setNewEvent({ name: '', date: '', type: 'nightclub', capacity: '', ticketLink: '', notes: '' })
+                    }}
+                    style={{ flex: 1, padding: '12px', background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#999', fontSize: 10, fontFamily: 'monospace', fontWeight: 700, cursor: 'pointer' }}
+                  >
+                    CANCEL
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (newEvent.name.trim() && newEvent.date) {
+                        const eventId = eventsList.length + 1
+                        const addedEvent = {
+                          id: eventId,
+                          name: newEvent.name,
+                          date: newEvent.date,
+                          type: newEvent.type,
+                          capacity: parseInt(newEvent.capacity) || 0,
+                          vipSent: false,
+                          notes: newEvent.notes,
+                          ticketLink: newEvent.ticketLink
+                        }
+                        setEventsList([...eventsList, addedEvent])
+                        setAddEventOpen(false)
+                        setNewEvent({ name: '', date: '', type: 'nightclub', capacity: '', ticketLink: '', notes: '' })
+                      }
+                    }}
+                    style={{ flex: 1, padding: '12px', background: '#C9A96E', border: 'none', color: '#0a0a0a', fontSize: 10, fontFamily: 'monospace', fontWeight: 700, cursor: 'pointer' }}
+                  >
+                    ADD EVENT →
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {addEventOpen && eventsList.length > 0 && (
+              <div style={{ padding: '12px 16px', background: '#0d0d0d', border: '1px solid #1a1a1a', borderRadius: 4, marginBottom: 24, color: '#C9A96E', fontSize: 10, fontFamily: 'monospace' }}>
+                ✓ Event added. Automations will be queued 96 hours before.
+              </div>
+            )}
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
-              {events.map((event, idx) => (
+              {eventsList.map((event, idx) => (
                 <div key={idx} style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', padding: 16, borderRadius: 4 }}>
                   <div style={{ color: '#C9A96E', fontSize: 10, fontFamily: 'monospace', fontWeight: 700, marginBottom: 8 }}>
                     {event.date}
@@ -439,9 +573,10 @@ export default function OraDashboard() {
       </div>
 
       {/* Vapi Demo Call Widget */}
-      <div style={{ position: 'fixed', bottom: 24, left: 24 }}>
+      <div style={{ position: 'fixed', bottom: 24, right: 24 }} className="demo-call-widget">
         <button
           onClick={() => setVapiCallOpen(true)}
+          className="demo-call-button"
           style={{
             padding: '12px 16px',
             background: '#1a1a1a',
