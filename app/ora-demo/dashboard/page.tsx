@@ -1,7 +1,20 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function OraDashboard() {
+  const router = useRouter()
+  const [authorized, setAuthorized] = useState(false)
+
+  useEffect(() => {
+    const cookies = document.cookie.split(';').map(c => c.trim())
+    const authCookie = cookies.find(c => c.startsWith('demo_auth='))
+    if (!authCookie || !authCookie.includes('authenticated')) {
+      router.push('/ora-demo/login')
+    } else {
+      setAuthorized(true)
+    }
+  }, [router])
   // Data arrays (must be before state initialization)
   const events = [
     { id: 1, name: 'Techno Friday', date: 'Mar 28', type: 'nightclub', capacity: 500, vipSent: true },
@@ -66,6 +79,10 @@ export default function OraDashboard() {
     { label: 'REPORTS', id: 'reports' },
     { label: 'SPEND INTEL', id: 'spend-intel' },
   ]
+
+  if (!authorized) {
+    return <div style={{ minHeight: '100vh', background: '#0a0a0a' }} />
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#0a0a0a', fontFamily: 'Georgia, serif' }}>

@@ -4,7 +4,6 @@ export async function POST(request: NextRequest) {
   try {
     const { name, phone, email } = await request.json()
 
-    // Validate inputs
     if (!name || !phone || !email) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -12,35 +11,50 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get Twilio credentials from environment
     const accountSid = process.env.TWILIO_ACCOUNT_SID
     const authToken = process.env.TWILIO_AUTH_TOKEN
     const twilioNumber = process.env.TWILIO_PHONE_NUMBER
+    const venueSlug = process.env.DEMO_VENUE_NAME || 'Ora Detroit'
 
     if (!accountSid || !authToken || !twilioNumber) {
-      // Log warning but don't fail the request - form still submits
-      console.warn('Twilio credentials not configured. SMS sending disabled.')
+      console.warn('Twilio credentials not configured.')
       return NextResponse.json(
-        { success: true, message: 'Form submitted but SMS disabled' },
+        { success: true, message: 'Form submitted (SMS disabled)' },
         { status: 200 }
       )
     }
 
-    // Send confirmation SMS to guest
-    const confirmationMessage = `Welcome to Ora Detroit VIP list! 🎉 You're on the list. Expect early access to events and exclusive offers. Reply STOP to unsubscribe.`
+    // Send welcome SMS to guest only — no data saved, no DB writes
+    const welcomeMessage = `Welcome to ${venueSlug} VIP list. You're on the list. Expect early access to events and exclusive offers. Reply STOP to unsubscribe.`
 
-    await sendTwilioSMS(accountSid, authToken, twilioNumber, phone, confirmationMessage)
+    await sendTwilioSMS(accountSid, authToken, twilioNumber, phone, welcomeMessage)
 
-    // Send alert SMS to Tay's phone
-    const taysNumber = process.env.TAY_PHONE_NUMBER || '+13135728627'
-    const alertMessage = `New Ora Detroit VIP subscriber: ${name} (${phone})`
+    // Fire Telegram alert to Ron via OpenClaw webhook
+    // This is handled by the VPS notification endpoint
+    const vpsAlertUrl = process.env.VPS_ALERT_URL
+    if (vpsAlertUrl) {
+      fetch(vpsAlertUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'demo_optin',
+          venue: venueSlug,
+          name,
+          phone,
+          email,
+          timestamp: new Date().toISOString()
+        })
+      }).catch(err => console.warn('VPS alert failed:', err))
+    }
 
-    await sendTwilioSMS(accountSid, authToken, twilioNumber, taysNumber, alertMessage)
+    // NOTE: No Supabase writes. No data persistence.
+    // This is a demo only. Submissions are ephemeral.
 
     return NextResponse.json(
       { success: true, message: 'Form submitted and SMS sent' },
       { status: 200 }
     )
+
   } catch (error) {
     console.error('Error processing form submission:', error)
     const errorMessage = error instanceof Error ? error.message : String(error)
@@ -60,18 +74,21 @@ async function sendTwilioSMS(
 ): Promise<void> {
   const auth = Buffer.from(`${accountSid}:${authToken}`).toString('base64')
 
-  const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Basic ${auth}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      From: fromNumber,
-      To: toNumber,
-      Body: message,
-    }),
-  })
+  const response = await fetch(
+    `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        From: fromNumber,
+        To: toNumber,
+        Body: message,
+      }),
+    }
+  )
 
   if (!response.ok) {
     const error = await response.text()
