@@ -1,88 +1,114 @@
 'use client'
+import { useState } from 'react'
 
-export default function NightlifePricing() {
+export default function NightlifePage() {
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
+  const faqs = [
+    {
+      q: 'What if I don\'t have a guest list yet?',
+      a: 'That\'s the whole point — we build it from scratch. We set up your opt-in page, QR codes, and integrations. The list starts growing from day one.'
+    },
+    {
+      q: 'How does POS integration work?',
+      a: 'We connect to your point-of-sale system to pull transaction data. This lets us track spend per guest, identify your top spenders, and trigger campaigns based on purchase behavior.'
+    },
+    {
+      q: 'Can I customize the messages sent to my guests?',
+      a: 'Yes. Every message template is customizable. We provide smart defaults based on your tone preference — refined, conversational, or high-energy — and you can modify any campaign before it sends.'
+    },
+    {
+      q: 'What about compliance and legal?',
+      a: 'Every opt-in is timestamped, IP logged, and consent-recorded. Unsubscribe requests are processed immediately. We handle all SMS compliance requirements.'
+    },
+    {
+      q: 'How long until I see results?',
+      a: 'Most clients see measurable list growth in week one. Re-engagement results typically show within 30-45 days. Spend intelligence data builds over 60-90 days.'
+    }
+  ]
+
   return (
-    <div style={{ background: '#0a0a0a', color: '#fff', fontFamily: 'Georgia, serif' }}>
+    <div style={{ background: '#060606', color: '#fff', fontFamily: 'monospace', minHeight: '100vh' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        .nav-link { color: #999; text-decoration: none; transition: color 0.2s; }
-        .nav-link:hover { color: #C9A96E; }
+        * { box-sizing: border-box; }
         @media (max-width: 768px) {
-          h1 { font-size: 28px !important; }
-          h2 { font-size: 20px !important; }
-          .pricing-grid { grid-template-columns: 1fr !important; }
-          .faq-section { padding: 40px 16px !important; }
-          .pricing-section { padding: 40px 16px !important; }
-        }
-        @media (max-width: 480px) {
-          h1 { font-size: 22px !important; }
-          h2 { font-size: 16px !important; }
-          p { font-size: 12px !important; }
-          .pricing-section { padding: 32px 12px !important; }
-          .faq-section { padding: 32px 12px !important; }
-          button { padding: 10px 20px !important; font-size: 9px !important; }
+          .tier-grid { grid-template-columns: 1fr !important; }
+          .hero-section { padding: 40px 20px !important; }
+          .steps-grid { grid-template-columns: 1fr !important; }
         }
       `}} />
 
 
-      {/* Header */}
-      <div style={{ padding: '32px 24px', borderBottom: '1px solid #1a1a1a' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ color: '#C9A96E', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', marginBottom: 16 }}>FCP DIGITAL</div>
-          <h1 style={{ fontSize: 42, fontWeight: 400, marginBottom: 12, letterSpacing: '0.02em' }}>Club Intelligence Platform</h1>
-          <p style={{ fontSize: 14, color: '#999', lineHeight: 1.8 }}>Complete guest management system for nightlife venues. Capture, analyze, and automate guest engagement.</p>
+      {/* Nav */}
+      <nav style={{ position: 'sticky', top: 0, height: 52, background: '#060606', borderBottom: '1px solid #0f0f0f', display: 'flex', alignItems: 'center', padding: '0 24px', zIndex: 100 }}>
+        <div style={{ fontSize: 13, fontWeight: 700 }}>
+          <span style={{ color: '#fff' }}>FCP</span>
+          <span style={{ color: '#dc2626' }}>DIGITAL</span>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="hero-section" style={{ padding: '80px 24px', background: '#060606', textAlign: 'center' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <div style={{ color: '#dc2626', fontSize: 9, letterSpacing: '0.25em', fontWeight: 700, marginBottom: 16 }}>FCP DIGITAL</div>
+          <h1 style={{ fontSize: 42, fontWeight: 700, color: '#fff', marginBottom: 16, letterSpacing: '0.02em' }}>Club Intelligence Platform</h1>
+          <div style={{ width: 60, height: 2, background: '#dc2626', margin: '20px auto 28px auto' }} />
+          <p style={{ fontSize: 13, color: '#555', lineHeight: 1.9, maxWidth: 700 }}>
+            Complete guest management system for nightlife venues. Capture, analyze, and automate guest engagement.
+          </p>
         </div>
       </div>
 
-      {/* Pricing Tiers */}
-      <div className="pricing-section" style={{ padding: '80px 24px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 32, fontWeight: 400, marginBottom: 64, textAlign: 'center', letterSpacing: '0.05em' }}>Service Tiers</h2>
+      {/* Service Tiers Section */}
+      <div style={{ padding: '80px 24px', background: '#060606' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.25em', fontWeight: 700, marginBottom: 12 }}>SERVICE TIERS</div>
+            <h2 style={{ fontSize: 32, fontWeight: 700, color: '#fff', marginBottom: 8, letterSpacing: '0.02em' }}>Three tiers. Start where it makes sense.</h2>
+          </div>
 
-          <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+          <div className="tier-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32, marginBottom: 80 }}>
             {/* PULSE */}
-            <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', padding: 32, borderRadius: 4 }}>
-              <div style={{ fontSize: 14, letterSpacing: '0.2em', fontFamily: 'monospace', fontWeight: 700, marginBottom: 24 }}>PULSE</div>
+            <div style={{ background: '#0f0f0f', border: '1px solid #1e1e1e', padding: 32, borderRadius: 4 }}>
+              <div style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: '#333', marginBottom: 28 }}>PULSE</div>
               <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 8 }}>
-                <span style={{ fontSize: 42, fontWeight: 700 }}>$497</span>
-                <span style={{ fontSize: 12, color: '#666', marginLeft: 4 }}>/month</span>
+                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$497</span>
+                <span style={{ fontSize: 11, color: '#555', marginLeft: 4 }}>/month</span>
               </div>
-              <div style={{ fontSize: 11, color: '#666', marginBottom: 32 }}>Setup: $500 | Contract: 3 months</div>
-
-              <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 24, marginBottom: 24 }}>
-                <div style={{ color: '#C9A96E', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', marginBottom: 16, fontWeight: 700 }}>INCLUDES:</div>
+              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$500 setup | 3-month minimum</div>
+              <div style={{ borderTop: '1px solid #1e1e1e', paddingTop: 20, marginBottom: 24 }}>
+                <div style={{ fontSize: 8, letterSpacing: '0.2em', fontWeight: 700, color: '#dc2626', marginBottom: 16 }}>INCLUDES:</div>
                 {[
                   'Guest list capture via opt-in page',
                   'QR code & table displays',
                   'Weekly pulse reports',
                   'Guest frequency tracking',
                   'Cold guest flagging (30+ days)',
-                  'Basic SMS campaigns (2/mo)'
+                  'Basic SMS & email campaigns',
+                  'Private event inquiry capture',
+                  'White-label dashboard (basic)',
+                  'Monthly intelligence report'
                 ].map((feature, idx) => (
-                  <div key={idx} style={{ fontSize: 11, color: '#ccc', marginBottom: 12, lineHeight: 1.6 }}>
-                    ✓ {feature}
-                  </div>
+                  <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
               </div>
-
-              <button style={{ width: '100%', padding: '12px', background: '#1a1a1a', color: '#C9A96E', border: 'none', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', fontWeight: 700, cursor: 'pointer' }}>
+              <button style={{ width: '100%', padding: '12px 16px', background: '#111', border: '1px solid #1e1e1e', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4 }}>
                 GET STARTED →
               </button>
             </div>
 
-            {/* INTELLIGENCE */}
-            <div style={{ background: '#111', border: '1px solid #C9A96E', padding: 32, borderRadius: 4, position: 'relative' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '8px 16px', background: '#C9A96E', color: '#0a0a0a', fontSize: 8, letterSpacing: '0.15em', fontFamily: 'monospace', fontWeight: 700, textAlign: 'center' }}>
-                MOST POPULAR
+            {/* INTELLIGENCE - MOST POPULAR */}
+            <div style={{ background: '#0f0f0f', border: '2px solid #dc2626', padding: 32, borderRadius: 4, position: 'relative' }}>
+              <div style={{ position: 'absolute', top: -10, left: 0, right: 0, textAlign: 'center' }}>
+                <div style={{ display: 'inline-block', background: '#dc2626', color: '#fff', padding: '4px 16px', fontSize: 8, letterSpacing: '0.15em', fontWeight: 700 }}>MOST POPULAR</div>
               </div>
-              <div style={{ marginTop: 24, fontSize: 14, letterSpacing: '0.2em', fontFamily: 'monospace', fontWeight: 700, marginBottom: 24 }}>INTELLIGENCE</div>
+              <div style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: '#333', marginBottom: 28, marginTop: 12 }}>INTELLIGENCE</div>
               <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 8 }}>
-                <span style={{ fontSize: 42, fontWeight: 700 }}>$1,750</span>
-                <span style={{ fontSize: 12, color: '#666', marginLeft: 4 }}>/month</span>
+                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$1,750</span>
+                <span style={{ fontSize: 11, color: '#555', marginLeft: 4 }}>/month</span>
               </div>
-              <div style={{ fontSize: 11, color: '#666', marginBottom: 32 }}>Setup: $1,000 | Contract: 6 months</div>
-
-              <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 24, marginBottom: 24 }}>
-                <div style={{ color: '#C9A96E', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', marginBottom: 16, fontWeight: 700 }}>EVERYTHING IN PULSE, PLUS:</div>
+              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$1,000 setup | 6-month minimum</div>
+              <div style={{ borderTop: '1px solid #1e1e1e', paddingTop: 20, marginBottom: 24 }}>
+                <div style={{ fontSize: 8, letterSpacing: '0.2em', fontWeight: 700, color: '#dc2626', marginBottom: 16 }}>EVERYTHING IN PULSE, PLUS:</div>
                 {[
                   'AI Call Receptionist — 24/7 availability',
                   'POS integration & spend tracking',
@@ -92,31 +118,26 @@ export default function NightlifePricing() {
                   'Campaign automation (event-triggered)',
                   'Basic AI dashboard chat',
                   'Automated recovery calls for negative feedback',
-                  'Fully white-labeled dashboard',
-                  'Monthly intelligence reports'
+                  'Monthly intelligence report'
                 ].map((feature, idx) => (
-                  <div key={idx} style={{ fontSize: 11, color: '#ccc', marginBottom: 12, lineHeight: 1.6 }}>
-                    ✓ {feature}
-                  </div>
+                  <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
               </div>
-
-              <button style={{ width: '100%', padding: '12px', background: '#C9A96E', color: '#0a0a0a', border: 'none', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', fontWeight: 700, cursor: 'pointer' }}>
+              <button style={{ width: '100%', padding: '12px 16px', background: '#dc2626', border: 'none', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4 }}>
                 GET STARTED →
               </button>
             </div>
 
             {/* COMMAND CENTER */}
-            <div style={{ background: '#0d0d0d', border: '1px solid #1a1a1a', padding: 32, borderRadius: 4 }}>
-              <div style={{ fontSize: 14, letterSpacing: '0.2em', fontFamily: 'monospace', fontWeight: 700, marginBottom: 24 }}>COMMAND CENTER</div>
+            <div style={{ background: '#0f0f0f', border: '1px solid #1e1e1e', padding: 32, borderRadius: 4 }}>
+              <div style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: '#333', marginBottom: 28 }}>COMMAND CENTER</div>
               <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 8 }}>
-                <span style={{ fontSize: 42, fontWeight: 700 }}>$4,500</span>
-                <span style={{ fontSize: 12, color: '#666', marginLeft: 4 }}>/month</span>
+                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$4,500</span>
+                <span style={{ fontSize: 11, color: '#555', marginLeft: 4 }}>/month</span>
               </div>
-              <div style={{ fontSize: 11, color: '#666', marginBottom: 32 }}>Setup: $2,500 | Contract: 12 months</div>
-
-              <div style={{ borderTop: '1px solid #1a1a1a', paddingTop: 24, marginBottom: 24 }}>
-                <div style={{ color: '#C9A96E', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', marginBottom: 16, fontWeight: 700 }}>EVERYTHING IN INTELLIGENCE, PLUS:</div>
+              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$2,500 setup | 12-month minimum</div>
+              <div style={{ borderTop: '1px solid #1e1e1e', paddingTop: 20, marginBottom: 24 }}>
+                <div style={{ fontSize: 8, letterSpacing: '0.2em', fontWeight: 700, color: '#dc2626', marginBottom: 16 }}>EVERYTHING IN INTELLIGENCE, PLUS:</div>
                 {[
                   'Custom AI voice identity',
                   'Advanced AI dashboard chat',
@@ -128,13 +149,10 @@ export default function NightlifePricing() {
                   'Dedicated success manager',
                   'First access to new features'
                 ].map((feature, idx) => (
-                  <div key={idx} style={{ fontSize: 11, color: '#ccc', marginBottom: 12, lineHeight: 1.6 }}>
-                    ✓ {feature}
-                  </div>
+                  <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
               </div>
-
-              <button style={{ width: '100%', padding: '12px', background: '#1a1a1a', color: '#C9A96E', border: 'none', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', fontWeight: 700, cursor: 'pointer' }}>
+              <button style={{ width: '100%', padding: '12px 16px', background: '#111', border: '1px solid #1e1e1e', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4 }}>
                 GET STARTED →
               </button>
             </div>
@@ -142,54 +160,105 @@ export default function NightlifePricing() {
         </div>
       </div>
 
-      {/* FAQ */}
-      <div className="faq-section" style={{ padding: '80px 24px', background: '#0d0d0d', borderTop: '1px solid #1a1a1a', borderBottom: '1px solid #1a1a1a' }}>
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <h2 style={{ fontSize: 32, fontWeight: 400, marginBottom: 48, textAlign: 'center', letterSpacing: '0.05em' }}>Frequently Asked Questions</h2>
+      {/* How It Works Section */}
+      <div style={{ padding: '80px 24px', background: '#0a0a0a' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div style={{ color: '#333', fontSize: 9, letterSpacing: '0.25em', fontWeight: 700, marginBottom: 12 }}>HOW IT WORKS</div>
+            <h2 style={{ fontSize: 32, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Three steps. No technical skills required.</h2>
+          </div>
 
-          {[
-            {
-              q: 'What if I don\'t have a guest list yet?',
-              a: 'That\'s the whole point — we build it. We set up opt-in pages, QR codes, and integrations with your existing systems. The list starts growing from day one.'
-            },
-            {
-              q: 'How does POS integration work?',
-              a: 'We integrate with Toast, Square, Clover, Lightspeed, or SpotOn. We pull transaction data to track spend per guest, identify VIPs, and trigger automated campaigns based on purchase behavior.'
-            },
-            {
-              q: 'Can I customize the SMS messages?',
-              a: 'Yes. Every template is customizable. We provide smart defaults based on tone preference (refined, conversational, or hype), and you can modify any campaign before it sends.'
-            },
-            {
-              q: 'What about compliance and legal?',
-              a: 'Full TCPA compliance. Every opt-in is timestamped, IP logged, and consent-recorded. Unsubscribe requests are processed immediately. We handle the legal heavy lifting.'
-            },
-            {
-              q: 'Is the dashboard white-labeled?',
-              a: 'Tier 1 shows "Powered by FCP Digital." Tier 2+ is fully white-labeled — zero FCP branding. Clients can even use their own custom domain.'
-            },
-          ].map((item, idx) => (
-            <div key={idx} style={{ marginBottom: 32, borderBottom: '1px solid #1a1a1a', paddingBottom: 32 }}>
-              <h3 style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 12 }}>{item.q}</h3>
-              <p style={{ fontSize: 12, color: '#999', lineHeight: 1.8 }}>{item.a}</p>
+          <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
+            {[
+              {
+                num: '01',
+                title: 'CAPTURE',
+                text: 'We build your data capture infrastructure — opt-in pages, QR codes at every touchpoint, reservation integration.'
+              },
+              {
+                num: '02',
+                title: 'INTELLIGENCE',
+                text: 'Guest frequency tracking, spend data, churn prediction, VIP ranking. Your guests ranked by lifetime value.'
+              },
+              {
+                num: '03',
+                title: 'AUTOMATE',
+                text: 'Re-engagement campaigns fire automatically. Weekly reports every Monday. You focus on the experience.'
+              }
+            ].map((step, idx) => (
+              <div key={idx}>
+                <div style={{ color: '#dc2626', fontSize: 32, fontWeight: 700, marginBottom: 12 }}>{step.num}</div>
+                <div style={{ color: '#fff', fontSize: 13, fontWeight: 700, marginBottom: 12, letterSpacing: '0.05em' }}>{step.title}</div>
+                <div style={{ color: '#555', fontSize: 12, lineHeight: 1.8 }}>{step.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div style={{ padding: '80px 24px', background: '#060606' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <h2 style={{ fontSize: 32, fontWeight: 700, color: '#fff', letterSpacing: '0.02em' }}>Frequently Asked Questions</h2>
+          </div>
+
+          {faqs.map((faq, idx) => (
+            <div key={idx} style={{ marginBottom: 24, borderBottom: '1px solid #0f0f0f', paddingBottom: 24 }}>
+              <button
+                onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  background: 'none',
+                  border: 'none',
+                  padding: '12px 0',
+                  color: '#fff',
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  fontFamily: 'monospace'
+                }}
+              >
+                <span>{faq.q}</span>
+                <span style={{ color: '#dc2626', fontSize: 16, marginLeft: 16 }}>{expandedFaq === idx ? '−' : '+'}</span>
+              </button>
+              {expandedFaq === idx && (
+                <div style={{ color: '#555', fontSize: 12, lineHeight: 1.8, paddingTop: 12 }}>
+                  {faq.a}
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Footer CTA */}
-      <div style={{ padding: '80px 24px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: 28, fontWeight: 400, marginBottom: 24, letterSpacing: '0.05em' }}>Ready to Transform Your Venue?</h2>
-        <p style={{ fontSize: 14, color: '#999', marginBottom: 32, lineHeight: 1.8 }}>
-          Schedule a 20-minute demo to see Club Intelligence in action. We'll show you exactly how your guest data turns into revenue.
-        </p>
-        <a href="https://calendly.com/fcpdigital/demo" style={{ padding: '14px 32px', background: '#C9A96E', color: '#0a0a0a', border: 'none', fontSize: 11, letterSpacing: '0.15em', fontFamily: 'monospace', fontWeight: 700, cursor: 'pointer', textDecoration: 'none', display: 'inline-block' }}>
-          BOOK A DEMO →
-        </a>
+      {/* Footer CTA Section */}
+      <div style={{ padding: '80px 24px', background: '#0a0a0a', textAlign: 'center' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 32, fontWeight: 700, color: '#fff', marginBottom: 16, letterSpacing: '0.02em' }}>Ready to activate your guest data?</h2>
+          <p style={{ fontSize: 13, color: '#555', marginBottom: 32, lineHeight: 1.8 }}>
+            Schedule a 20-minute discovery call.
+          </p>
+          <button style={{ padding: '14px 32px', background: '#dc2626', color: '#fff', border: 'none', fontSize: 11, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4, marginBottom: 32, fontFamily: 'monospace' }}>
+            BOOK A CALL →
+          </button>
+          <div style={{ fontSize: 10, color: '#333', letterSpacing: '0.1em' }}>
+            services@fcpdigital.net | +1 313 327 3170
+          </div>
+        </div>
+      </div>
 
-        <div style={{ marginTop: 64, paddingTop: 32, borderTop: '1px solid #1a1a1a', color: '#666', fontSize: 11 }}>
-          <p>FCP Digital | services@fcpdigital.net | +1 313 327 3170</p>
-          <p style={{ marginTop: 8, fontSize: 9 }}>© 2026 FCP Digital. All rights reserved.</p>
+      {/* Page Footer */}
+      <div style={{ padding: '32px 24px', borderTop: '1px solid #0f0f0f', textAlign: 'center' }}>
+        <div style={{ fontSize: 9, color: '#333', marginBottom: 12, letterSpacing: '0.1em' }}>
+          © 2026 FCP Digital (Full Clip Productions LLC)
+        </div>
+        <div style={{ fontSize: 9, color: '#333', letterSpacing: '0.1em' }}>
+          PRIVACY POLICY | TERMS OF SERVICE | SMS TERMS
         </div>
       </div>
     </div>
