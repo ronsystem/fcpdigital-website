@@ -4,6 +4,13 @@ import { useState } from 'react'
 export default function ClubsPage() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
 
+  const navLinks = [
+    { label: 'ORA DEMO', href: '/ora-demo' },
+    { label: 'DASHBOARD', href: '/ora-demo/dashboard' },
+    { label: 'PRICING', href: '/nightlife' },
+    { label: 'HOME', href: '/' },
+  ]
+
   const faqs = [
     {
       q: 'Do I need to install anything?',
@@ -78,10 +85,21 @@ export default function ClubsPage() {
 
   return (
     <div style={{ background: '#0a0a0a', color: '#fff', fontFamily: 'Georgia, serif' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .nav-link { color: #999; text-decoration: none; transition: color 0.2s; }
+        .nav-link:hover { color: #C9A96E; }
+      `}} />
 
       {/* Navigation */}
-      <div style={{ padding: '16px 24px', borderBottom: '1px solid #1a1a1a' }}>
-        <a href="/" style={{ color: '#999', fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace', textDecoration: 'none' }}>FCP DIGITAL</a>
+      <div style={{ padding: '16px 24px', borderBottom: '1px solid #1a1a1a', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '24px' }}>
+        <a href="/" style={{ fontSize: 10, letterSpacing: '0.15em', fontFamily: 'monospace' }} className="nav-link">FCP DIGITAL</a>
+        <div style={{ display: 'flex', gap: '24px' }}>
+          {navLinks.map((link, idx) => (
+            <a key={idx} href={link.href} style={{ fontSize: 9, letterSpacing: '0.15em', fontFamily: 'monospace' }} className="nav-link">
+              {link.label}
+            </a>
+          ))}
+        </div>
       </div>
 
       {/* Hero Section */}
