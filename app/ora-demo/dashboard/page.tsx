@@ -609,7 +609,7 @@ export default function OraDashboard() {
               <div style={{ color: '#C9A96E', fontSize: 42, marginBottom: 12 }}>☎</div>
               {callState === 'ready' && (
                 <>
-                  <div style={{ color: '#fff', fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Club Intelligence AI</div>
+                  <div style={{ color: '#fff', fontSize: 14, fontWeight: 600, marginBottom: 8 }}>AI Receptionist Demo</div>
                   <div style={{ color: '#999', fontSize: 11, marginBottom: 16 }}>Experience our AI receptionist handling a guest inquiry</div>
                   <button
                     onClick={() => {
