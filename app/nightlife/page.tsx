@@ -96,9 +96,9 @@ export default function NightlifePage() {
                   <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
               </div>
-              <button style={{ width: '100%', padding: '12px 16px', background: '#111', border: '1px solid #1e1e1e', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4 }}>
+              <a href="/get-started?tier=pulse" style={{ display: 'block', width: '100%', padding: '12px 16px', background: '#111', border: '1px solid #1e1e1e', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4, textAlign: 'center', textDecoration: 'none', boxSizing: 'border-box' }}>
                 GET STARTED →
-              </button>
+              </a>
             </div>
 
             {/* INTELLIGENCE - MOST POPULAR */}
@@ -131,9 +131,9 @@ export default function NightlifePage() {
                   <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
               </div>
-              <button style={{ width: '100%', padding: '12px 16px', background: '#dc2626', border: 'none', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4 }}>
+              <a href="/get-started?tier=intelligence" style={{ display: 'block', width: '100%', padding: '12px 16px', background: '#dc2626', border: 'none', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4, textAlign: 'center', textDecoration: 'none', boxSizing: 'border-box' }}>
                 GET STARTED →
-              </button>
+              </a>
             </div>
 
             {/* COMMAND CENTER */}
@@ -160,9 +160,9 @@ export default function NightlifePage() {
                   <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
               </div>
-              <button style={{ width: '100%', padding: '12px 16px', background: '#111', border: '1px solid #1e1e1e', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4 }}>
+              <a href="/get-started?tier=command" style={{ display: 'block', width: '100%', padding: '12px 16px', background: '#111', border: '1px solid #1e1e1e', color: '#fff', fontSize: 10, letterSpacing: '0.15em', fontWeight: 700, cursor: 'pointer', borderRadius: 4, textAlign: 'center', textDecoration: 'none', boxSizing: 'border-box' }}>
                 GET STARTED →
-              </button>
+              </a>
             </div>
           </div>
         </div>
