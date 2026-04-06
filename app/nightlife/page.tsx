@@ -71,22 +71,27 @@ export default function NightlifePage() {
             <div style={{ background: '#0f0f0f', border: '1px solid #1e1e1e', padding: 32, borderRadius: 4 }}>
               <div style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: '#333', marginBottom: 28 }}>PULSE</div>
               <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 8 }}>
-                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$497</span>
+                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$697</span>
                 <span style={{ fontSize: 11, color: '#555', marginLeft: 4 }}>/month</span>
               </div>
-              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$500 setup | 3-month minimum</div>
+              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$750 setup | 3-month minimum</div>
               <div style={{ borderTop: '1px solid #1e1e1e', paddingTop: 20, marginBottom: 24 }}>
                 <div style={{ fontSize: 8, letterSpacing: '0.2em', fontWeight: 700, color: '#dc2626', marginBottom: 16 }}>INCLUDES:</div>
                 {[
-                  'Guest list capture via opt-in page',
-                  'QR code & table displays',
-                  'Weekly pulse reports',
+                  'Guest list capture (opt-in page + QR codes)',
+                  'QR code table displays + bar top cards',
+                  'Staff training materials',
+                  'Reservation platform integration',
+                  'Event Calendar (dashboard)',
+                  'Weekly Pulse Report — every Monday',
+                  'Basic SMS campaigns (up to 2/month)',
+                  'Basic email campaigns (up to 2/month)',
                   'Guest frequency tracking',
-                  'Cold guest flagging (30+ days)',
-                  'Basic SMS & email campaigns',
-                  'Private event inquiry capture',
+                  'Cold guest flagging (30+ days inactive)',
+                  'Private event inquiry capture + auto-confirmation',
                   'White-label dashboard (basic)',
-                  'Monthly intelligence report'
+                  'Monthly Intelligence Report',
+                  'FCP Digital fully managed service'
                 ].map((feature, idx) => (
                   <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
@@ -103,22 +108,25 @@ export default function NightlifePage() {
               </div>
               <div style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: '#333', marginBottom: 28, marginTop: 12 }}>INTELLIGENCE</div>
               <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 8 }}>
-                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$1,750</span>
+                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$2,500</span>
                 <span style={{ fontSize: 11, color: '#555', marginLeft: 4 }}>/month</span>
               </div>
-              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$1,000 setup | 6-month minimum</div>
+              <div style={{ fontSize: 11, color: '#333', marginBottom: 12 }}>$1,500 setup | 6-month minimum</div>
+              <div style={{ fontSize: 10, color: '#555', marginBottom: 28, fontStyle: 'italic' }}>Prefer a shorter commitment? 3-month option available at $2,750/mo.</div>
               <div style={{ borderTop: '1px solid #1e1e1e', paddingTop: 20, marginBottom: 24 }}>
                 <div style={{ fontSize: 8, letterSpacing: '0.2em', fontWeight: 700, color: '#dc2626', marginBottom: 16 }}>EVERYTHING IN PULSE, PLUS:</div>
                 {[
-                  'AI Call Receptionist — 24/7 availability',
-                  'POS integration & spend tracking',
-                  'Spend intelligence & VIP auto-tagging',
+                  'AI Call Receptionist — answers calls 24/7, books tables, handles VIP and event inquiries',
+                  'POS system integration — spend data, lifetime value tracking',
+                  'Spend intelligence — top spenders ranked, churn prediction, VIP auto-tagging',
                   'Re-engagement automation',
+                  'Private event follow-up automation',
                   'Guest segmentation (6 segments)',
-                  'Campaign automation (event-triggered)',
+                  'Campaign automation (event-triggered, birthday, seasonal)',
                   'Basic AI dashboard chat',
                   'Automated recovery calls for negative feedback',
-                  'Monthly intelligence report'
+                  'Full white-label — FCP Digital branding removed',
+                  'Monthly Intelligence Report'
                 ].map((feature, idx) => (
                   <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
@@ -132,22 +140,22 @@ export default function NightlifePage() {
             <div style={{ background: '#0f0f0f', border: '1px solid #1e1e1e', padding: 32, borderRadius: 4 }}>
               <div style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: '#333', marginBottom: 28 }}>COMMAND CENTER</div>
               <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: 8 }}>
-                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$4,500</span>
+                <span style={{ fontSize: 42, fontWeight: 700, color: '#fff' }}>$5,500</span>
                 <span style={{ fontSize: 11, color: '#555', marginLeft: 4 }}>/month</span>
               </div>
-              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$2,500 setup | 12-month minimum</div>
+              <div style={{ fontSize: 11, color: '#333', marginBottom: 28 }}>$3,000 setup | 12-month minimum</div>
               <div style={{ borderTop: '1px solid #1e1e1e', paddingTop: 20, marginBottom: 24 }}>
                 <div style={{ fontSize: 8, letterSpacing: '0.2em', fontWeight: 700, color: '#dc2626', marginBottom: 16 }}>EVERYTHING IN INTELLIGENCE, PLUS:</div>
                 {[
-                  'Custom AI voice identity',
-                  'Advanced AI dashboard chat',
-                  'Advanced guest segmentation',
-                  'Multi-revenue stream campaigns',
-                  'Fully custom automation flows',
-                  'Weekly intelligence reports',
-                  'Priority build requests',
-                  'Dedicated success manager',
-                  'First access to new features'
+                  'Autonomous revenue intelligence — system identifies and acts on opportunities without being told',
+                  'Revenue attribution — exact dollars tracked per campaign, not estimates',
+                  'Predictive analytics — flags guests likely to churn before they disappear',
+                  'Multi-revenue stream automation — separate intelligence per revenue line (nightclub, brunch, events, bottle service)',
+                  'Custom automation builder — build triggers beyond the standard playbook',
+                  'Advanced AI dashboard chat — open-ended queries, execute campaigns directly from chat',
+                  'Custom AI voice identity — venue-branded voice and scripting',
+                  'Weekly Intelligence Reports (vs monthly)',
+                  'Priority infrastructure — first access to all new features and builds'
                 ].map((feature, idx) => (
                   <div key={idx} style={{ fontSize: 11, color: '#555', marginBottom: 10, lineHeight: 1.6 }}>✓ {feature}</div>
                 ))}
@@ -247,7 +255,7 @@ export default function NightlifePage() {
             BOOK A CALL →
           </button>
           <div style={{ fontSize: 10, color: '#333', letterSpacing: '0.1em' }}>
-            services@fcpdigital.net | +1 313 327 3170
+            services@fcpdigital.net | (313) 571-8627
           </div>
         </div>
       </div>
