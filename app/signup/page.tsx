@@ -37,6 +37,7 @@ function SignupForm() {
   const [smsConsent, setSmsConsent] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState('')
 
   useEffect(() => {
     setForm(f => ({ ...f, plan: selectedPlan.name }))
@@ -55,7 +56,9 @@ function SignupForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setCheckoutError('')
     try {
+      // Step 1: Save lead to Supabase
       await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -70,10 +73,36 @@ function SignupForm() {
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         }),
       })
+
+      // Step 2: Create Stripe checkout session and redirect
+      const checkoutRes = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: form.business,
+          ownerName: form.name,
+          email: form.email,
+          phone: form.phone,
+          serviceType: form.service,
+          plan: planParam,
+        }),
+      })
+
+      const checkoutData = await checkoutRes.json()
+
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url
+        return
+      }
+
+      // If Stripe isn't configured yet, fall back to confirmation screen
+      console.warn('Stripe checkout not available:', checkoutData.error)
+      setSubmitted(true)
     } catch (err) {
       console.error('Signup error:', err)
-    } finally {
+      setCheckoutError('Something went wrong. Your info was saved — we\'ll reach out within 24 hours.')
       setSubmitted(true)
+    } finally {
       setLoading(false)
     }
   }

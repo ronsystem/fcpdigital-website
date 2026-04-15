@@ -10,8 +10,11 @@ export async function POST(request: NextRequest) {
       .from('businesses')
       .insert({
         name: body.name || 'New Lead',
+        owner_name: body.owner_name,
         owner_email: body.owner_email,
         owner_phone: body.owner_phone,
+        service_type: body.service_type,
+        plan: body.plan,
         status: 'lead',
         timezone: body.timezone || 'America/Detroit',
       })
@@ -23,7 +26,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    // Log the plan selection separately
     console.log('New lead:', body.owner_email, '| Plan:', body.plan, '| Service:', body.service_type)
 
     return NextResponse.json({ success: true, id: data?.id, plan: body.plan })
