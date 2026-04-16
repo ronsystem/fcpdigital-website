@@ -60,9 +60,9 @@ export default function SettingsPage() {
     {
       title: 'PLAN & BILLING',
       items: [
-        { label: 'CURRENT PLAN', value: (biz?.plan || 'SCALE').toUpperCase() },
-        { label: 'MONTHLY FEE', value: '$' + (biz?.monthly_fee || 499) + '/month' },
-        { label: 'MINUTES INCLUDED', value: '1,500 min / month' },
+        { label: 'CURRENT PLAN', value: (biz?.plan || 'GROWTH').toUpperCase() },
+        { label: 'MONTHLY FEE', value: '$' + (biz?.monthly_fee || 199) + '/month' },
+        { label: 'MINUTES INCLUDED', value: '750 min / month' },
         { label: 'NEXT BILLING', value: 'Managed via Stripe' },
       ],
       comingSoon: false,

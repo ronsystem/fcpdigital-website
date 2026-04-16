@@ -6,7 +6,8 @@ const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SEC
 }) : null
 
 const PRICE_IDS: Record<string, string> = {
-  launch: process.env.STRIPE_PRICE_LAUNCH || '',
+  starter: process.env.STRIPE_PRICE_STARTER || '',
+  growth: process.env.STRIPE_PRICE_GROWTH || '',
   scale: process.env.STRIPE_PRICE_SCALE || '',
   dominate: process.env.STRIPE_PRICE_DOMINATE || '',
 }

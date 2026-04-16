@@ -6,9 +6,10 @@ const FOUNDING_FILLED = 2
 const FOUNDING_TOTAL = 15
 
 const PLANS = {
-  launch: { name: 'LAUNCH', price: 249, minutes: 500 },
-  scale: { name: 'SCALE', price: 499, minutes: 1500 },
-  dominate: { name: 'DOMINATE', price: 899, minutes: 3000 },
+  starter: { name: 'STARTER', price: 99, minutes: 200 },
+  growth: { name: 'GROWTH', price: 199, minutes: 750 },
+  scale: { name: 'SCALE', price: 399, minutes: 2000 },
+  dominate: { name: 'DOMINATE', price: 799, minutes: 4000 },
 }
 
 type PlanKey = keyof typeof PLANS
@@ -23,8 +24,8 @@ const services = ['Plumbing', 'HVAC', 'Electrical', 'Landscaping', 'Roofing', 'C
 
 function SignupForm() {
   const searchParams = useSearchParams()
-  const planParam = (searchParams.get('plan') || 'scale') as PlanKey
-  const selectedPlan = PLANS[planParam] || PLANS.scale
+  const planParam = (searchParams.get('plan') || 'growth') as PlanKey
+  const selectedPlan = PLANS[planParam] || PLANS.growth
 
   const [form, setForm] = useState({
     business: '',

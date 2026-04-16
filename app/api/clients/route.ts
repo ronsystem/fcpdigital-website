@@ -42,9 +42,9 @@ export async function GET(request: NextRequest) {
       phone_number: data.phone_number,
       twilio_number: tw.data?.phone_number || data.phone_number,
       stripe_customer_id: data.stripe_customer_id,
-      plan: 'scale',
-      monthly_fee: 499,
-      call_minutes_limit: 1500,
+      plan: 'growth',
+      monthly_fee: 199,
+      call_minutes_limit: 750,
       call_minutes_used: 0,
     }
 

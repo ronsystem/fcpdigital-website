@@ -60,11 +60,11 @@ export default function DashboardPage() {
   }, [])
 
   const used = biz?.call_minutes_used || 0
-  const limit = biz?.call_minutes_limit || 1500
+  const limit = biz?.call_minutes_limit || 750
   const pct = Math.min(Math.round((used / limit) * 100), 100)
   const num = biz?.twilio_number || biz?.phone_number || 'Configuring...'
-  const plan = (biz?.plan || 'SCALE').toUpperCase()
-  const fee = biz?.monthly_fee || 499
+  const plan = (biz?.plan || 'GROWTH').toUpperCase()
+  const fee = biz?.monthly_fee || 199
 
   if (loading) return <div style={{ color: '#333', textAlign: 'center', paddingTop: 60 }}>Loading...</div>
 
